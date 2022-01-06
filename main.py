@@ -98,6 +98,7 @@ class LoadWindow(QDialog):
 
         self.searchButton = QPushButton(self)
         self.searchButton.setText("搜索")
+        self.searchButton.clicked.connect(self.search)
 
         # =============================
         self.listWidget = QListWidget(self)
@@ -124,17 +125,20 @@ class LoadWindow(QDialog):
             for key in datadict.keys():
                 QListWidgetItem(key, self.listWidget)
 
+    def search(self):
+        self.listWidget.clear()
+        if os.path.exists("database.pkl"):
+            with open("database.pkl", "rb") as f:
+                datadict = pickle.load(f)
+
+            for key in datadict.keys():
+                if self.nameLineEdit.text().lower() in key.lower():
+                    QListWidgetItem(key, self.listWidget)
+
 
     def getInfo(self):
-        # printing the form information
         print("Person Name : {0}".format(self.nameLineEdit.text()))
-        print("Degree : {0}".format(self.degreeComboBox.currentText()))
-        print("Age : {0}".format(self.ageSpinBar.text()))
-
-        # closing the window
         self.close()
-
-        # creat form method
 
     def createForm(self):
         # creating a form layout

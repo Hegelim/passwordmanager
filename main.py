@@ -107,6 +107,8 @@ class LoadWindow(QDialog):
 
         # =============================
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.deleteButton = self.buttonBox.addButton("Delete", QDialogButtonBox.ActionRole)
+        self.deleteButton.clicked.connect(self.deleteEntry)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
 
@@ -132,13 +134,33 @@ class LoadWindow(QDialog):
             with open("database.pkl", "rb") as f:
                 datadict = pickle.load(f)
 
-            for key in datadict.keys():
-                if self.nameLineEdit.text().lower() in key.lower():
+            if self.nameLineEdit.text() == "":
+                for key in datadict.keys():
                     QListWidgetItem(key, self.listWidget)
+            else:
+                for key in datadict.keys():
+                    if self.nameLineEdit.text().lower() in key.lower():
+                        QListWidgetItem(key, self.listWidget)
 
     def doubleClickInfo(self, item):
         self.updatewindow = UpdateWindow(item)
         self.updatewindow.show()
+
+
+    def deleteEntry(self):
+        if os.path.exists("database.pkl"):
+            with open("database.pkl", "rb") as f:
+                datadict = pickle.load(f)
+
+            datadict.pop(self.listWidget.currentItem().text())
+
+            self.listWidget.clear()
+            for key in datadict.keys():
+                QListWidgetItem(key, self.listWidget)
+
+            with open('database.pkl', 'wb') as f:
+                pickle.dump(datadict, f)
+
 
     def createForm(self):
         # creating a form layout

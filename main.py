@@ -86,6 +86,63 @@ class SaveWindow(QDialog):
         retval = self.msg.exec_()
 
 
+class LoadWindow(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Python")
+        self.setGeometry(100, 100, 300, 400)
+
+        self.formGroupBox = QGroupBox("注册信息")
+        self.nameLineEdit = QLineEdit()
+        self.createForm()
+
+        self.searchButton = QPushButton(self)
+        self.searchButton.setText("搜索")
+
+        # =============================
+        self.listWidget = QListWidget(self)
+        self.displayregistration()
+
+        # =============================
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.buttonBox.accepted.connect(self.getInfo)
+        self.buttonBox.rejected.connect(self.reject)
+
+        # ==========================
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(self.formGroupBox)
+        mainLayout.addWidget(self.searchButton)
+        mainLayout.addWidget(self.listWidget)
+        mainLayout.addWidget(self.buttonBox)
+        self.setLayout(mainLayout)
+
+    def displayregistration(self):
+        if os.path.exists("database.pkl"):
+            with open("database.pkl", "rb") as f:
+                datadict = pickle.load(f)
+
+            for key in datadict.keys():
+                QListWidgetItem(key, self.listWidget)
+
+
+    def getInfo(self):
+        # printing the form information
+        print("Person Name : {0}".format(self.nameLineEdit.text()))
+        print("Degree : {0}".format(self.degreeComboBox.currentText()))
+        print("Age : {0}".format(self.ageSpinBar.text()))
+
+        # closing the window
+        self.close()
+
+        # creat form method
+
+    def createForm(self):
+        # creating a form layout
+        layout = QFormLayout()
+        layout.addRow(QLabel("名称"), self.nameLineEdit)
+        self.formGroupBox.setLayout(layout)
+
+
 class Window(QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
@@ -126,13 +183,11 @@ class Window(QMainWindow):
         self.savewindow.setGeometry(QRect(400, 400, 400, 200))
         self.savewindow.show()
 
-
     def load(self):
         """Open the dictionary"""
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
-                datadict = pickle.load(f)
-                print(datadict)
+        self.loadwindow = LoadWindow()
+        self.loadwindow.setGeometry(QRect(400, 400, 400, 200))
+        self.loadwindow.show()
 
 
 if __name__ == "__main__":

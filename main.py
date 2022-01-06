@@ -105,10 +105,9 @@ class LoadWindow(QDialog):
         self.displayregistration()
         self.listWidget.itemDoubleClicked.connect(self.doubleClickInfo)
 
-
         # =============================
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.buttonBox.accepted.connect(self.getInfo)
+        self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
 
         # ==========================
@@ -141,11 +140,6 @@ class LoadWindow(QDialog):
         self.updatewindow = UpdateWindow(item)
         self.updatewindow.show()
 
-
-    def getInfo(self):
-        print("Person Name : {0}".format(self.nameLineEdit.text()))
-        self.close()
-
     def createForm(self):
         # creating a form layout
         layout = QFormLayout()
@@ -157,6 +151,7 @@ class UpdateWindow(QDialog):
     def __init__(self, item):
         super().__init__()
 
+        self.item = item
         self.setWindowTitle("Update Window")
         self.setGeometry(100, 100, 300, 400)
         self.formGroupBox = QGroupBox("Form 1")
@@ -166,7 +161,7 @@ class UpdateWindow(QDialog):
         self.nameLineEdit = QLineEdit()
 
         self.createForm(item)
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel)
         self.buttonBox.accepted.connect(self.update)
         self.buttonBox.rejected.connect(self.reject)
 
@@ -180,9 +175,9 @@ class UpdateWindow(QDialog):
             with open("database.pkl", "rb") as f:
                 datadict = pickle.load(f)
 
-            datadict[self.nameLineEdit.text()]["username"] = self.usernameLineEdit.text()
-            datadict[self.nameLineEdit.text()]["password"] = self.passwordLineEdit.text()
-            datadict[self.nameLineEdit.text()]["website"] = self.websiteLineEdit.text()
+            datadict[self.item.text()]["username"] = self.usernameLineEdit.text()
+            datadict[self.item.text()]["password"] = self.passwordLineEdit.text()
+            datadict[self.item.text()]["website"] = self.websiteLineEdit.text()
 
             with open("database.pkl", "wb") as f:
                 pickle.dump(datadict, f)
@@ -194,13 +189,11 @@ class UpdateWindow(QDialog):
         layout.addRow(QLabel("Username:"), self.usernameLineEdit)
         layout.addRow(QLabel("Password:"), self.passwordLineEdit)
         layout.addRow(QLabel("Website:"), self.websiteLineEdit)
-        layout.addRow(QLabel("Name:"), self.nameLineEdit)
 
         if os.path.exists("database.pkl"):
             with open("database.pkl", "rb") as f:
                 datadict = pickle.load(f)
 
-            self.nameLineEdit.setText(item.text())
             self.usernameLineEdit.setText(datadict[item.text()]["username"])
             self.passwordLineEdit.setText(datadict[item.text()]["password"])
             self.websiteLineEdit.setText(datadict[item.text()]["website"])

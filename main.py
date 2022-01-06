@@ -176,6 +176,17 @@ class UpdateWindow(QDialog):
         self.setLayout(mainLayout)
 
     def update(self):
+        if os.path.exists("database.pkl"):
+            with open("database.pkl", "rb") as f:
+                datadict = pickle.load(f)
+
+            datadict[self.nameLineEdit.text()]["username"] = self.usernameLineEdit.text()
+            datadict[self.nameLineEdit.text()]["password"] = self.passwordLineEdit.text()
+            datadict[self.nameLineEdit.text()]["website"] = self.websiteLineEdit.text()
+
+            with open("database.pkl", "wb") as f:
+                pickle.dump(datadict, f)
+
         self.close()
 
     def createForm(self, item):

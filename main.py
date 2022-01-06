@@ -103,6 +103,8 @@ class LoadWindow(QDialog):
         # =============================
         self.listWidget = QListWidget(self)
         self.displayregistration()
+        self.listWidget.itemDoubleClicked.connect(self.doubleClickInfo)
+
 
         # =============================
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -135,6 +137,10 @@ class LoadWindow(QDialog):
                 if self.nameLineEdit.text().lower() in key.lower():
                     QListWidgetItem(key, self.listWidget)
 
+    def doubleClickInfo(self, item):
+        self.updatewindow = UpdateWindow(item)
+        self.updatewindow.show()
+
 
     def getInfo(self):
         print("Person Name : {0}".format(self.nameLineEdit.text()))
@@ -144,6 +150,50 @@ class LoadWindow(QDialog):
         # creating a form layout
         layout = QFormLayout()
         layout.addRow(QLabel("名称"), self.nameLineEdit)
+        self.formGroupBox.setLayout(layout)
+
+
+class UpdateWindow(QDialog):
+    def __init__(self, item):
+        super().__init__()
+
+        self.setWindowTitle("Update Window")
+        self.setGeometry(100, 100, 300, 400)
+        self.formGroupBox = QGroupBox("Form 1")
+        self.usernameLineEdit = QLineEdit()
+        self.passwordLineEdit = QLineEdit()
+        self.websiteLineEdit = QLineEdit()
+        self.nameLineEdit = QLineEdit()
+
+        self.createForm(item)
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.buttonBox.accepted.connect(self.update)
+        self.buttonBox.rejected.connect(self.reject)
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(self.formGroupBox)
+        mainLayout.addWidget(self.buttonBox)
+        self.setLayout(mainLayout)
+
+    def update(self):
+        self.close()
+
+    def createForm(self, item):
+        layout = QFormLayout()
+        layout.addRow(QLabel("Username:"), self.usernameLineEdit)
+        layout.addRow(QLabel("Password:"), self.passwordLineEdit)
+        layout.addRow(QLabel("Website:"), self.websiteLineEdit)
+        layout.addRow(QLabel("Name:"), self.nameLineEdit)
+
+        if os.path.exists("database.pkl"):
+            with open("database.pkl", "rb") as f:
+                datadict = pickle.load(f)
+
+            self.nameLineEdit.setText(item.text())
+            self.usernameLineEdit.setText(datadict[item.text()]["username"])
+            self.passwordLineEdit.setText(datadict[item.text()]["password"])
+            self.websiteLineEdit.setText(datadict[item.text()]["website"])
+
         self.formGroupBox.setLayout(layout)
 
 

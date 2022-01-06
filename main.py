@@ -30,7 +30,7 @@ class SaveWindow(QDialog):
 
         self.createForm()
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.buttonBox.accepted.connect(self.getInfo)
+        self.buttonBox.accepted.connect(self.saveregistration)
         self.buttonBox.rejected.connect(self.reject)
 
         mainLayout = QVBoxLayout()
@@ -38,9 +38,6 @@ class SaveWindow(QDialog):
         mainLayout.addWidget(self.formGroupBox)
         mainLayout.addWidget(self.buttonBox)
         self.setLayout(mainLayout)
-
-    def getInfo(self):
-        self.close()
 
     def createForm(self):
         layout = QFormLayout()
@@ -52,23 +49,41 @@ class SaveWindow(QDialog):
 
     def saveregistration(self):
         """Save a dictionary."""
-        ## load the dictionary
+        # check whether the file exists
         if os.path.exists("database.pkl"):
             with open("database.pkl", "rb") as f:
                 datadict = pickle.load(f)
         else:
             datadict = {}
 
-        newDict = {
-            "username": self.usernameLineEdit.text(),
-            "password": self.passwordLineEdit.text(),
-            "website": self.websiteLineEdit.text(),
-        }
+        # check whether any entry is empty
+        if (self.usernameLineEdit.text() != "" and
+            self.passwordLineEdit.text() != "" and
+            self.websiteLineEdit.text() != "" and
+            self.nameLineEdit.text() != ""):
 
-        datadict[self.nameLineEdit] = newDict
+            newDict = {
+                "username": self.usernameLineEdit.text(),
+                "password": self.passwordLineEdit.text(),
+                "website": self.websiteLineEdit.text(),
+            }
+            datadict[self.nameLineEdit.text()] = newDict
 
-        with open('database.pkl', 'wb') as f:
-            pickle.dump(datadict, f, protocol=pickle.HIGHEST_PROTOCOL)
+            with open('database.pkl', 'wb') as f:
+                pickle.dump(datadict, f)
+
+        else:
+            self.show_warning_message_box()
+
+        self.close()
+
+    def show_warning_message_box(self):
+        self.msg = QMessageBox()
+        self.msg.setIcon(QMessageBox.Warning)
+        self.msg.setText("您有未输入的信息，请重新输入")
+        self.msg.setWindowTitle("注意")
+        self.msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        retval = self.msg.exec_()
 
 
 class Window(QMainWindow):
@@ -108,7 +123,7 @@ class Window(QMainWindow):
 
     def save(self):
         self.savewindow = SaveWindow()
-        self.savewindow.setGeometry(QRect(100, 100, 400, 200))
+        self.savewindow.setGeometry(QRect(400, 400, 400, 200))
         self.savewindow.show()
 
 

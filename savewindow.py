@@ -26,7 +26,7 @@ class SaveWindow(QDialog):
         mainLayout.addWidget(self.formGroupBox)
         mainLayout.addWidget(self.buttonBox)
         self.setLayout(mainLayout)
-
+        
     def createForm(self):
         layout = QFormLayout()
         layout.addRow(QLabel("用户名:"), self.usernameLineEdit)
@@ -71,4 +71,4 @@ class SaveWindow(QDialog):
         self.msg.setText("您有未输入的信息，请重新输入")
         self.msg.setWindowTitle("注意")
         self.msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        retval = self.msg.exec_()
+        self.msg.exec_()

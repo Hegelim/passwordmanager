@@ -12,215 +12,12 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import pandas as pd
-import pickle
-import os.path
-
-
-class SaveWindow(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Registration")
-        self.formGroupBox = QGroupBox("Registration Info")
-
-        self.usernameLineEdit = QLineEdit()
-        self.passwordLineEdit = QLineEdit()
-        self.websiteLineEdit = QLineEdit()
-        self.nameLineEdit = QLineEdit()
-
-        self.createForm()
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.buttonBox.accepted.connect(self.saveregistration)
-        self.buttonBox.rejected.connect(self.reject)
-
-        mainLayout = QVBoxLayout()
-
-        mainLayout.addWidget(self.formGroupBox)
-        mainLayout.addWidget(self.buttonBox)
-        self.setLayout(mainLayout)
-
-    def createForm(self):
-        layout = QFormLayout()
-        layout.addRow(QLabel("Username:"), self.usernameLineEdit)
-        layout.addRow(QLabel("Password:"), self.passwordLineEdit)
-        layout.addRow(QLabel("Website:"), self.websiteLineEdit)
-        layout.addRow(QLabel("Give it a name:"), self.nameLineEdit)
-        self.formGroupBox.setLayout(layout)
-
-    def saveregistration(self):
-        """Save a dictionary."""
-        # check whether the file exists
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
-                datadict = pickle.load(f)
-        else:
-            datadict = {}
-
-        # check whether any entry is empty
-        if (self.usernameLineEdit.text() != "" and
-            self.passwordLineEdit.text() != "" and
-            self.websiteLineEdit.text() != "" and
-            self.nameLineEdit.text() != ""):
-
-            newDict = {
-                "username": self.usernameLineEdit.text(),
-                "password": self.passwordLineEdit.text(),
-                "website": self.websiteLineEdit.text(),
-            }
-            datadict[self.nameLineEdit.text()] = newDict
-
-            with open('database.pkl', 'wb') as f:
-                pickle.dump(datadict, f)
-
-        else:
-            self.show_warning_message_box()
-
-        self.close()
-
-    def show_warning_message_box(self):
-        self.msg = QMessageBox()
-        self.msg.setIcon(QMessageBox.Warning)
-        self.msg.setText("您有未输入的信息，请重新输入")
-        self.msg.setWindowTitle("注意")
-        self.msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        retval = self.msg.exec_()
-
-
-class LoadWindow(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Python")
-        self.setGeometry(100, 100, 300, 400)
-
-        self.formGroupBox = QGroupBox("注册信息")
-        self.nameLineEdit = QLineEdit()
-        self.createForm()
-
-        self.searchButton = QPushButton(self)
-        self.searchButton.setText("搜索")
-        self.searchButton.clicked.connect(self.search)
-
-        # =============================
-        self.listWidget = QListWidget(self)
-        self.displayregistration()
-        self.listWidget.itemDoubleClicked.connect(self.doubleClickInfo)
-
-        # =============================
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.deleteButton = self.buttonBox.addButton("Delete", QDialogButtonBox.ActionRole)
-        self.deleteButton.clicked.connect(self.deleteEntry)
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
-
-        # ==========================
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.formGroupBox)
-        mainLayout.addWidget(self.searchButton)
-        mainLayout.addWidget(self.listWidget)
-        mainLayout.addWidget(self.buttonBox)
-        self.setLayout(mainLayout)
-
-    def displayregistration(self):
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
-                datadict = pickle.load(f)
-
-            for key in datadict.keys():
-                QListWidgetItem(key, self.listWidget)
-
-    def search(self):
-        self.listWidget.clear()
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
-                datadict = pickle.load(f)
-
-            if self.nameLineEdit.text() == "":
-                for key in datadict.keys():
-                    QListWidgetItem(key, self.listWidget)
-            else:
-                for key in datadict.keys():
-                    if self.nameLineEdit.text().lower() in key.lower():
-                        QListWidgetItem(key, self.listWidget)
-
-    def doubleClickInfo(self, item):
-        self.updatewindow = UpdateWindow(item)
-        self.updatewindow.show()
-
-
-    def deleteEntry(self):
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
-                datadict = pickle.load(f)
-
-            datadict.pop(self.listWidget.currentItem().text())
-
-            self.listWidget.clear()
-            for key in datadict.keys():
-                QListWidgetItem(key, self.listWidget)
-
-            with open('database.pkl', 'wb') as f:
-                pickle.dump(datadict, f)
-
-
-    def createForm(self):
-        # creating a form layout
-        layout = QFormLayout()
-        layout.addRow(QLabel("名称"), self.nameLineEdit)
-        self.formGroupBox.setLayout(layout)
-
-
-class UpdateWindow(QDialog):
-    def __init__(self, item):
-        super().__init__()
-
-        self.item = item
-        self.setWindowTitle("Update Window")
-        self.setGeometry(100, 100, 300, 400)
-        self.formGroupBox = QGroupBox("Form 1")
-        self.usernameLineEdit = QLineEdit()
-        self.passwordLineEdit = QLineEdit()
-        self.websiteLineEdit = QLineEdit()
-        self.nameLineEdit = QLineEdit()
-
-        self.createForm(item)
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel)
-        self.buttonBox.accepted.connect(self.update)
-        self.buttonBox.rejected.connect(self.reject)
-
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.formGroupBox)
-        mainLayout.addWidget(self.buttonBox)
-        self.setLayout(mainLayout)
-
-    def update(self):
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
-                datadict = pickle.load(f)
-
-            datadict[self.item.text()]["username"] = self.usernameLineEdit.text()
-            datadict[self.item.text()]["password"] = self.passwordLineEdit.text()
-            datadict[self.item.text()]["website"] = self.websiteLineEdit.text()
-
-            with open("database.pkl", "wb") as f:
-                pickle.dump(datadict, f)
-
-        self.close()
-
-    def createForm(self, item):
-        layout = QFormLayout()
-        layout.addRow(QLabel("Username:"), self.usernameLineEdit)
-        layout.addRow(QLabel("Password:"), self.passwordLineEdit)
-        layout.addRow(QLabel("Website:"), self.websiteLineEdit)
-
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
-                datadict = pickle.load(f)
-
-            self.usernameLineEdit.setText(datadict[item.text()]["username"])
-            self.passwordLineEdit.setText(datadict[item.text()]["password"])
-            self.websiteLineEdit.setText(datadict[item.text()]["website"])
-
-        self.formGroupBox.setLayout(layout)
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+from savewindow import SaveWindow
+from loadwindow import LoadWindow
+import os
+import shutil
 
 
 class Window(QMainWindow):
@@ -229,34 +26,51 @@ class Window(QMainWindow):
         self.top = 200
         self.left = 200
         self.width = 600
-        self.height = 500
+        self.height = 350
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Password Manager")
+        self.setWindowTitle("密码管理助手")
         self.setGeometry(self.top, self.left, self.width, self.height)
 
+        ### "保存"部分
         self.saveButton = QPushButton(self)
-        self.saveButton.setGeometry(QtCore.QRect(90, 230, 200, 60))
+        self.saveButton.setGeometry(QtCore.QRect(90, 130, 200, 60))
         self.saveButton.setObjectName("saveButton")
-        self.saveButton.setText("Save")
+        self.saveButton.setText("保存")
         self.saveButton.clicked.connect(self.save)
 
+        ### “读取”部分
         self.loadButton = QPushButton(self)
-        self.loadButton.setGeometry(QtCore.QRect(310, 230, 200, 60))
+        self.loadButton.setGeometry(QtCore.QRect(310, 130, 200, 60))
         self.loadButton.setObjectName("loadButton")
-        self.loadButton.setText("Load")
+        self.loadButton.setText("读取")
         self.loadButton.clicked.connect(self.load)
+        
+        ### “同步”部分
+        self.syncButton = QPushButton(self)
+        self.syncButton.setGeometry(QtCore.QRect(90, 210, 200, 60))
+        self.syncButton.setObjectName("syncButton")
+        self.syncButton.setText("备份至云端")
+        self.syncButton.clicked.connect(self.sync)
+        
+        ### "导出"
+        self.exportButton = QPushButton(self)
+        self.exportButton.setGeometry(QtCore.QRect(310, 210, 200, 60))
+        self.exportButton.setObjectName("exportButton")
+        self.exportButton.setText("导出")
+        self.exportButton.clicked.connect(self.export)
 
+        ### 
         self.label = QLabel(self)
-        self.label.setGeometry(QRect(90, 140, 421, 71))
+        self.label.setGeometry(QRect(90, 50, 421, 71))
         font = QFont()
         font.setPointSize(20)
         self.label.setFont(font)
         self.label.setLayoutDirection(Qt.LeftToRight)
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setObjectName("label")
-        self.label.setText("Welcome to Password Manager!")
+        self.label.setText("欢迎使用密码管理小助手!")
 
     def save(self):
         self.savewindow = SaveWindow()
@@ -268,6 +82,45 @@ class Window(QMainWindow):
         self.loadwindow = LoadWindow()
         self.loadwindow.setGeometry(QRect(400, 400, 400, 200))
         self.loadwindow.show()
+        
+    def sync(self):
+        if os.path.exists("database.pkl"):
+            gauth = GoogleAuth()
+            gauth.LocalWebserverAuth() # client_secrets.json need to be in the same directory as the script
+            drive = GoogleDrive(gauth)
+            # fileList = drive.ListFile({'q': "'1EbGpmPpt4FVNQIf8sZWcjB1UOnklVGVN' in parents and trashed=false"}).GetList()
+            file = drive.CreateFile({'parents': [{'id': '1EbGpmPpt4FVNQIf8sZWcjB1UOnklVGVN'}]})
+            file.SetContentFile('database.pkl')
+            file.Upload()
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText("Success")
+            msg.setInformativeText('备份成功！')
+            msg.setWindowTitle("备份成功")
+            msg.exec_()
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Error")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            
+    def export(self):
+        dialog = QFileDialog()
+        foo_dir = dialog.getExistingDirectory(self, '选择导出目录')
+        if os.path.exists('database.pkl'):
+            shutil.copyfile('database.pkl', os.path.join(foo_dir, 'database.pkl'))
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText("导出成功！")
+            msg.setWindowTitle("导出成功")
+            msg.exec_()
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("您还没有保存任何密码")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
 
 if __name__ == "__main__":

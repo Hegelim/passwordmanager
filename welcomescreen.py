@@ -3,7 +3,6 @@ from mainscreen import MainWindow
 from registerwindow import RegisterWindow
 import sys
 import utils
-import keyring
 import os
 import json
 

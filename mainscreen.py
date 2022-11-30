@@ -19,6 +19,7 @@ from loadwindow import LoadWindow
 import os
 import shutil
 import utils
+from pathlib import Path
 
 
 class MainWindow(QMainWindow):
@@ -110,21 +111,47 @@ class MainWindow(QMainWindow):
             
     def export(self):
         if os.path.exists(utils.database_file):
-            # option = QFileDialog.Options()
-            dialog = QFileDialog()
-            dialog.setAcceptMode(QFileDialog.AcceptSave)
-            dialog.exec()
-            # foo_dir = dialog.getExistingDirectory(self, '选择导出目录')
-            # option = QFileDialog.Dont
-            # print(dialog.exec())
-            # shutil.copyfile(utils.database_file, os.path.join(foo_dir, utils.database_file))
-            # QtWidgets.QMessageBox.Information(self, '成功', '导出成功')
+            # set up QFileDialog
+            # dialog = QFileDialog()
+            # dialog.setAcceptMode(QFileDialog.AcceptSave)
+            # dialog.setFileMode(QFileDialog.FileMode.AnyFile)
+            # dialog.setNameFilter("Database Files (*.pkl)")
+            # save pkl file to another directory
+            dir_name = QFileDialog.getExistingDirectory(self, "选择导出目录")
+            # dir might not have been selected
+            if dir_name:
+                if os.path.exists(os.path.join(dir_name, utils.database_file)):
+                    msg = QtWidgets.QMessageBox()
+                    msg.setWindowTitle("导出")
+                    msg.setIcon(QMessageBox.Question)
+                    msg.setText(f"您要导出到{os.path.join(dir_name, utils.database_file)}")
+                    msg.setInformativeText("文件已存在，继续吗？")
+                    msg.setStandardButtons(QMessageBox.Save | QMessageBox.Cancel)
+                    msg.setDefaultButton(QMessageBox.Cancel)
+                    if msg.exec() == QtWidgets.QMessageBox.Save:
+                        shutil.copy(utils.database_file, os.path.join(dir_name, utils.database_file))
+                        QtWidgets.QMessageBox.information(self, 'success', "导出成功")
+                    else:
+                        QtWidgets.QMessageBox.information(self, 'canceled', "已取消")
+                    
+                else:
+                    msg = QtWidgets.QMessageBox()
+                    msg.setWindowTitle("导出")
+                    msg.setIcon(QMessageBox.Question)
+                    msg.setText(f"您要导出到{os.path.join(dir_name, utils.database_file)}")
+                    msg.setInformativeText("继续吗？")
+                    msg.setStandardButtons(QMessageBox.Save | QMessageBox.Cancel)
+                    msg.setDefaultButton(QMessageBox.Cancel)
+                    if msg.exec() == QtWidgets.QMessageBox.Save:
+                        shutil.copy(utils.database_file, os.path.join(dir_name, utils.database_file))
+                        QtWidgets.QMessageBox.information(self, 'success', "导出成功")
+                    else:
+                        QtWidgets.QMessageBox.information(self, 'canceled', "已取消")
+            else:
+                QtWidgets.QMessageBox.warning(self, 'warning', "您还未选择任何目录")
+
         else:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Critical)
-            msg.setText("您还没有保存任何密码")
-            msg.setWindowTitle("错误")
-            msg.exec()
+            QtWidgets.QMessageBox.warning(self, 'warning', "您还未保存任何密码")
         
 
 if __name__ == "__main__":

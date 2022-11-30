@@ -6,3 +6,6 @@ credentials.json
 token.json
 password.json
 logs
+build
+dist
+welcomescreen.spec

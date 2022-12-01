@@ -10,6 +10,7 @@ import json
 class Login(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
         self.initUI()
     
 
@@ -24,24 +25,15 @@ class Login(QtWidgets.QDialog):
         
         # set label
         self.label = QtWidgets.QLabel("欢迎使用密码管理小助手")
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.label.setFont(font)
         outerlayout.addWidget(self.label)
         
         # form
         formlayout = QtWidgets.QFormLayout()
         self.username = QtWidgets.QLabel("用户名")
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.username.setFont(font)
         self.lineEdit_username = QtWidgets.QLineEdit()
         formlayout.addRow(self.username, self.lineEdit_username)
                 
         self.password = QtWidgets.QLabel("密码")
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.password.setFont(font)        
         
         self.lineEdit_password = QtWidgets.QLineEdit()
         formlayout.addRow(self.password, self.lineEdit_password)
@@ -101,11 +93,7 @@ class Login(QtWidgets.QDialog):
 
 
     def handleForget(self):
-        msg = QtWidgets.QMessageBox(self)
-        msg.setWindowTitle("忘记密码")
-        msg.setText("请联系开发者并支付10元")
-        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        msg.exec() 
+        QtWidgets.QMessageBox.information(self, '忘记密码', "请联系开发者并支付10元")
         
     
     def match_password(self):

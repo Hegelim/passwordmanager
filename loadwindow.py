@@ -11,6 +11,8 @@ import utils
 class LoadWindow(QDialog):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
+
         self.setWindowTitle("读取")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
         self.setGeometry(500, 200, 300, 400)

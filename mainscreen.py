@@ -24,6 +24,7 @@ import utils
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
         self.initUI()
 
     def initUI(self):
@@ -37,12 +38,12 @@ class MainWindow(QMainWindow):
 
         # title
         self.label = QLabel()
-        self.label.setFont(utils.gen_font(20))
+        # self.label.setFont(utils.gen_font(20))
         self.label.setText("欢迎使用密码管理小助手!")
         outerlayout.addWidget(self.label)
         
         options = QLabel()
-        options.setFont(utils.gen_font(12))
+        # options.setFont(utils.gen_font(12))
         options.setText("请选择以下选项")
         outerlayout.addWidget(options)
         
@@ -52,27 +53,27 @@ class MainWindow(QMainWindow):
         # "保存"部分
         self.saveButton = QPushButton()
         self.saveButton.setMinimumSize(150, 80)
-        self.saveButton.setFont(utils.gen_font(12))
+        # self.saveButton.setFont(utils.gen_font(12))
         self.saveButton.setText("保存")
         self.saveButton.clicked.connect(self.save)
 
         # “读取”部分
         self.loadButton = QPushButton()
-        self.loadButton.setFont(utils.gen_font(12))
+        # self.loadButton.setFont(utils.gen_font(12))
         self.loadButton.setMinimumSize(150, 80)
         self.loadButton.setText("读取")
         self.loadButton.clicked.connect(self.load)
         
         # “同步”部分
         self.syncButton = QPushButton()
-        self.syncButton.setFont(utils.gen_font(12))
+        # self.syncButton.setFont(utils.gen_font(12))
         self.syncButton.setMinimumSize(150, 80)
         self.syncButton.setText("备份至云端")
         self.syncButton.clicked.connect(self.sync)
         
         # "导出"
         self.exportButton = QPushButton()
-        self.exportButton.setFont(utils.gen_font(12))
+        # self.exportButton.setFont(utils.gen_font(12))
         self.exportButton.setMinimumSize(150, 80)
         self.exportButton.setText("导出")
         self.exportButton.clicked.connect(self.export)
@@ -137,9 +138,9 @@ class MainWindow(QMainWindow):
                     msg.setDefaultButton(QMessageBox.Cancel)
                     if msg.exec() == QtWidgets.QMessageBox.Save:
                         shutil.copy(utils.database_file, os.path.join(dir_name, utils.database_file))
-                        QtWidgets.QMessageBox.information(self, 'success', "导出成功")
+                        QtWidgets.QMessageBox.information(self, '成功', "导出成功")
                     else:
-                        QtWidgets.QMessageBox.information(self, 'canceled', "已取消")
+                        QtWidgets.QMessageBox.information(self, '取消', "已取消")
                     
                 else:
                     msg = QtWidgets.QMessageBox()
@@ -151,14 +152,14 @@ class MainWindow(QMainWindow):
                     msg.setDefaultButton(QMessageBox.Cancel)
                     if msg.exec() == QtWidgets.QMessageBox.Save:
                         shutil.copy(utils.database_file, os.path.join(dir_name, utils.database_file))
-                        QtWidgets.QMessageBox.information(self, 'success', "导出成功")
+                        QtWidgets.QMessageBox.information(self, '成功', "导出成功")
                     else:
-                        QtWidgets.QMessageBox.information(self, 'canceled', "已取消")
+                        QtWidgets.QMessageBox.information(self, '取消', "已取消")
             else:
-                QtWidgets.QMessageBox.warning(self, 'warning', "您还未选择任何目录")
+                QtWidgets.QMessageBox.warning(self, '警告', "您还未选择任何目录")
 
         else:
-            QtWidgets.QMessageBox.warning(self, 'warning', "您还未保存任何密码")
+            QtWidgets.QMessageBox.warning(self, '警告', "您还未保存任何密码")
         
 
 if __name__ == "__main__":

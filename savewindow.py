@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtWidgets
 import os
 import pickle
 import utils
@@ -10,6 +10,8 @@ import utils
 class SaveWindow(QDialog):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
+        
         self.setWindowTitle("注册信息")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
         self.formGroupBox = QGroupBox("注册信息")
@@ -41,8 +43,8 @@ class SaveWindow(QDialog):
     def saveregistration(self):
         """Save a dictionary."""
         # check whether the file exists
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
+        if os.path.exists(utils.database_file):
+            with open(utils.database_file, "rb") as f:
                 datadict = pickle.load(f)
         else:
             datadict = {}
@@ -64,14 +66,5 @@ class SaveWindow(QDialog):
                 pickle.dump(datadict, f)
 
         else:
-            self.show_warning_message_box()
+            QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")
 
-        self.close()
-
-    def show_warning_message_box(self):
-        self.msg = QMessageBox()
-        self.msg.setIcon(QMessageBox.Warning)
-        self.msg.setText("您有未输入的信息，请重新输入")
-        self.msg.setWindowTitle("注意")
-        self.msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        self.msg.exec_()

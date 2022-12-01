@@ -10,7 +10,7 @@ import utils
 class UpdateWindow(QDialog):
     def __init__(self, item):
         super().__init__()
-        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
+        self.setStyleSheet(utils.style)
 
         self.item = item
         self.setWindowTitle("注册信息")

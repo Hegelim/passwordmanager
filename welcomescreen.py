@@ -11,7 +11,7 @@ import json
 class Login(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
+        self.setStyleSheet(utils.style)
         self.initUI()
     
 
@@ -46,13 +46,20 @@ class Login(QtWidgets.QDialog):
         # button layout
         buttonlayout = QtWidgets.QHBoxLayout()
         self.loginbutton = QtWidgets.QPushButton("登录")
+        self.loginbutton.setMinimumSize(80, 50)
         self.loginbutton.clicked.connect(self.handleLogin)
+        # self.loginbutton.setStyleSheet(utils.pushbutton)
         
         self.registerbutton = QtWidgets.QPushButton("注册")
+        self.registerbutton.setMinimumSize(80, 50)
         self.registerbutton.clicked.connect(self.handleRegister)
+        # self.registerbutton.setStyleSheet(utils.pushbutton)
+
         
         self.forgetbutton = QtWidgets.QPushButton("忘记密码")
+        self.forgetbutton.setMinimumSize(80, 50)
         self.forgetbutton.clicked.connect(self.handleForget)
+        # self.forgetbutton.setStyleSheet(utils.pushbutton)
         buttonlayout.addWidget(self.loginbutton)
         buttonlayout.addWidget(self.registerbutton)
         buttonlayout.addWidget(self.forgetbutton)
@@ -112,6 +119,7 @@ class Login(QtWidgets.QDialog):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("Fusion")
     login = Login()
     login.show()
     sys.exit(app.exec_())

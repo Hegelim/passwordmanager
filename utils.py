@@ -18,6 +18,24 @@ card_file_box = "favicons/card_file_box.png"
 pen = "favicons/pen.png"
 lock = "favicons/lock.png"
 
+# color
+color = "#cbf3f0"
+
+# style sheet
+style = """
+font-size: 15pt; 
+font-family: HanyiSentyMarshmallow; 
+"""
+
+pushbutton = """
+QPushButton {
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 20px;
+}
+"""
+# background-color: #cae9ff; 
+
 
 def center(window):
     """Move window to the center of the screen"""

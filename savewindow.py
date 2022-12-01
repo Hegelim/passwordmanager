@@ -10,7 +10,7 @@ import utils
 class SaveWindow(QDialog):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
+        self.setStyleSheet(utils.style)
         
         self.setWindowTitle("注册信息")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))

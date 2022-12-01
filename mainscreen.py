@@ -24,7 +24,7 @@ import utils
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
+        self.setStyleSheet(utils.style)
         self.initUI()
 
     def initUI(self):
@@ -158,6 +158,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
     mainwindow = MainWindow()
     mainwindow.show()
     sys.exit(app.exec_())

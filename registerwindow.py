@@ -8,7 +8,7 @@ import json
 class RegisterWindow(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
+        self.setStyleSheet(utils.style)
         self.initUI()
         
     def initUI(self):

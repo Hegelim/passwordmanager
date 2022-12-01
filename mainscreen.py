@@ -93,7 +93,7 @@ class MainWindow(QMainWindow):
             gauth.LocalWebserverAuth() # client_secrets.json need to be in the same directory as the script
             drive = GoogleDrive(gauth)
             # Specify Google Drive folder id
-            file = drive.CreateFile({'parents': [{'id': '1EbGpmPpt4FVNQIf8sZWcjB1UOnklVGVN'}]})
+            file = drive.CreateFile({'parents': [{'id': '1rGC92pX8lKrktQ0dJhuwKZ7V0NNCfjKw'}]})
             file.SetContentFile('database.pkl')
             file.Upload()
             msg = QMessageBox()

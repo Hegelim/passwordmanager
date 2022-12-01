@@ -70,26 +70,29 @@ class LoadWindow(QDialog):
 
     def deleteEntry(self):
         if os.path.exists("database.pkl"):
-            msg = QtWidgets.QMessageBox()
-            msg.setWindowTitle("删除")
-            msg.setIcon(QMessageBox.Question)
-            msg.setText(f"您要删除{self.listWidget.currentItem().text()}")
-            msg.setInformativeText("继续吗？")
-            msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-            msg.setDefaultButton(QMessageBox.Cancel)
-            if msg.exec() == QMessageBox.Yes:
-                with open("database.pkl", "rb") as f:
-                    datadict = pickle.load(f)
+            if not self.listWidget.currentItem():
+                QtWidgets.QMessageBox.warning(self, "错误", "您还未选取任何记录")
+            else:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle("删除")
+                msg.setIcon(QMessageBox.Question)
+                msg.setText(f"您要删除{self.listWidget.currentItem().text()}")
+                msg.setInformativeText("继续吗？")
+                msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+                msg.setDefaultButton(QMessageBox.Cancel)
+                if msg.exec() == QMessageBox.Yes:
+                    with open("database.pkl", "rb") as f:
+                        datadict = pickle.load(f)
 
-                datadict.pop(self.listWidget.currentItem().text())
+                    datadict.pop(self.listWidget.currentItem().text())
 
-                self.listWidget.clear()
-                for key in datadict.keys():
-                    QListWidgetItem(key, self.listWidget)
+                    self.listWidget.clear()
+                    for key in datadict.keys():
+                        QListWidgetItem(key, self.listWidget)
 
-                with open('database.pkl', 'wb') as f:
-                    pickle.dump(datadict, f)
-                QtWidgets.QMessageBox.information(self, "删除", "删除成功")
+                    with open('database.pkl', 'wb') as f:
+                        pickle.dump(datadict, f)
+                    QtWidgets.QMessageBox.information(self, "删除", "删除成功")
 
 
     def createForm(self):

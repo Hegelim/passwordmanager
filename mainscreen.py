@@ -38,12 +38,10 @@ class MainWindow(QMainWindow):
 
         # title
         self.label = QLabel()
-        # self.label.setFont(utils.gen_font(20))
         self.label.setText("欢迎使用密码管理小助手!")
         outerlayout.addWidget(self.label)
         
         options = QLabel()
-        # options.setFont(utils.gen_font(12))
         options.setText("请选择以下选项")
         outerlayout.addWidget(options)
         
@@ -53,27 +51,23 @@ class MainWindow(QMainWindow):
         # "保存"部分
         self.saveButton = QPushButton()
         self.saveButton.setMinimumSize(150, 80)
-        # self.saveButton.setFont(utils.gen_font(12))
         self.saveButton.setText("保存")
         self.saveButton.clicked.connect(self.save)
 
         # “读取”部分
         self.loadButton = QPushButton()
-        # self.loadButton.setFont(utils.gen_font(12))
         self.loadButton.setMinimumSize(150, 80)
         self.loadButton.setText("读取")
         self.loadButton.clicked.connect(self.load)
         
         # “同步”部分
         self.syncButton = QPushButton()
-        # self.syncButton.setFont(utils.gen_font(12))
         self.syncButton.setMinimumSize(150, 80)
         self.syncButton.setText("备份至云端")
         self.syncButton.clicked.connect(self.sync)
         
         # "导出"
         self.exportButton = QPushButton()
-        # self.exportButton.setFont(utils.gen_font(12))
         self.exportButton.setMinimumSize(150, 80)
         self.exportButton.setText("导出")
         self.exportButton.clicked.connect(self.export)

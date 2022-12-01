@@ -32,6 +32,7 @@ class SaveWindow(QDialog):
         mainLayout.addWidget(self.buttonBox)
         self.setLayout(mainLayout)
         
+        
     def createForm(self):
         layout = QFormLayout()
         layout.addRow(QLabel("用户名:"), self.usernameLineEdit)
@@ -39,6 +40,7 @@ class SaveWindow(QDialog):
         layout.addRow(QLabel("网址:"), self.websiteLineEdit)
         layout.addRow(QLabel("给它命个名吧:"), self.nameLineEdit)
         self.formGroupBox.setLayout(layout)
+
 
     def saveregistration(self):
         """Save a dictionary."""
@@ -64,7 +66,9 @@ class SaveWindow(QDialog):
 
             with open('database.pkl', 'wb') as f:
                 pickle.dump(datadict, f)
-
+            
+            QtWidgets.QMessageBox.information(self, "保存", "保存成功！")
+            self.close()
         else:
             QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")
 

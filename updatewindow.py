@@ -10,6 +10,7 @@ import utils
 class UpdateWindow(QDialog):
     def __init__(self, item):
         super().__init__()
+        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
 
         self.item = item
         self.setWindowTitle("注册信息")
@@ -41,7 +42,14 @@ class UpdateWindow(QDialog):
                 datadict[self.item.text()]["website"] == self.websiteLineEdit.text()):
                 QtWidgets.QMessageBox.warning(self, "更改", "您未做任何更改")
                 
-            # 2. the user does update the information
+                
+            # 2. if any input is empty
+            elif (self.usernameLineEdit.text() == "" or
+                  self.passwordLineEdit.text() == "" or
+                  self.websiteLineEdit.text() == ""):
+                QtWidgets.QMessageBox.warning(self, "更改", "输入不能为空")
+                
+            # 3. the user does update the information
             else:
                 msg = QtWidgets.QMessageBox(self)
                 msg.setWindowTitle("更改")

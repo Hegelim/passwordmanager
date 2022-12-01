@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QMessageBox
 import utils
 import json
@@ -11,6 +11,7 @@ class RegisterWindow(QtWidgets.QDialog):
         
     def initUI(self):
         self.setWindowTitle("注册")
+        self.setWindowIcon(QtGui.QIcon(utils.pen))
         
         # add label
         layout = QtWidgets.QVBoxLayout()
@@ -61,7 +62,8 @@ class RegisterWindow(QtWidgets.QDialog):
             
         # save password 
         else:
-            msg = QtWidgets.QMessageBox()
+            msg = QtWidgets.QMessageBox(self)
+            msg.setWindowTitle("保存")
             msg.setText("保存密码确认")
             msg.setInformativeText("您确定要保存该信息吗？")
             msg.setStandardButtons(QMessageBox.Save | QMessageBox.Cancel)

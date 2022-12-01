@@ -1,16 +1,18 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 import os
 import pickle
 from updatewindow import UpdateWindow
+import utils
 
 
 class LoadWindow(QDialog):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Python")
+        self.setWindowTitle("读取")
+        self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
         self.setGeometry(500, 200, 300, 400)
 
         self.formGroupBox = QGroupBox("注册信息")
@@ -27,7 +29,7 @@ class LoadWindow(QDialog):
         self.listWidget.itemDoubleClicked.connect(self.doubleClickInfo)
 
         # =============================
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Close)
         self.deleteButton = self.buttonBox.addButton("Delete", QDialogButtonBox.ActionRole)
         self.deleteButton.clicked.connect(self.deleteEntry)
         self.buttonBox.accepted.connect(self.accept)
@@ -42,8 +44,8 @@ class LoadWindow(QDialog):
         self.setLayout(mainLayout)
 
     def displayregistration(self):
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
+        if os.path.exists(utils.database_file):
+            with open(utils.database_file, "rb") as f:
                 datadict = pickle.load(f)
 
             for key in datadict.keys():
@@ -51,8 +53,8 @@ class LoadWindow(QDialog):
 
     def search(self):
         self.listWidget.clear()
-        if os.path.exists("database.pkl"):
-            with open("database.pkl", "rb") as f:
+        if os.path.exists(utils.database_file):
+            with open(utils.database_file, "rb") as f:
                 datadict = pickle.load(f)
 
             if self.nameLineEdit.text() == "":
@@ -63,17 +65,19 @@ class LoadWindow(QDialog):
                     if self.nameLineEdit.text().lower() in key.lower():
                         QListWidgetItem(key, self.listWidget)
 
+
     def doubleClickInfo(self, item):
         self.updatewindow = UpdateWindow(item)
+        utils.center(self.updatewindow)
         self.updatewindow.show()
 
 
     def deleteEntry(self):
-        if os.path.exists("database.pkl"):
+        if os.path.exists(utils.database_file):
             if not self.listWidget.currentItem():
                 QtWidgets.QMessageBox.warning(self, "错误", "您还未选取任何记录")
             else:
-                msg = QtWidgets.QMessageBox()
+                msg = QtWidgets.QMessageBox(self)
                 msg.setWindowTitle("删除")
                 msg.setIcon(QMessageBox.Question)
                 msg.setText(f"您要删除{self.listWidget.currentItem().text()}")
@@ -81,7 +85,7 @@ class LoadWindow(QDialog):
                 msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
                 msg.setDefaultButton(QMessageBox.Cancel)
                 if msg.exec() == QMessageBox.Yes:
-                    with open("database.pkl", "rb") as f:
+                    with open(utils.database_file, "rb") as f:
                         datadict = pickle.load(f)
 
                     datadict.pop(self.listWidget.currentItem().text())
@@ -90,7 +94,7 @@ class LoadWindow(QDialog):
                     for key in datadict.keys():
                         QListWidgetItem(key, self.listWidget)
 
-                    with open('database.pkl', 'wb') as f:
+                    with open(utils.database_file, 'wb') as f:
                         pickle.dump(datadict, f)
                     QtWidgets.QMessageBox.information(self, "删除", "删除成功")
 

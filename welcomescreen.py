@@ -16,6 +16,7 @@ class Login(QtWidgets.QDialog):
     def initUI(self):
         """Initialize window"""
         self.setWindowTitle("登录页面")
+        self.setWindowIcon(QtGui.QIcon(utils.lock))
         utils.center(self)
         
         # set layout
@@ -100,7 +101,7 @@ class Login(QtWidgets.QDialog):
 
 
     def handleForget(self):
-        msg = QtWidgets.QMessageBox()
+        msg = QtWidgets.QMessageBox(self)
         msg.setWindowTitle("忘记密码")
         msg.setText("请联系开发者并支付10元")
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok)

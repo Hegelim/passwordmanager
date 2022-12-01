@@ -18,5 +18,13 @@ pip install pyinstaller
 pyinstaller --onedir --windowed welcomescreen.py
 ```
 
-## Update
+## Features
+
+### V1.1.0
+
+* Save entries
+* Delete entries
+* Export entries
+* Backup with Google Drive
+
 

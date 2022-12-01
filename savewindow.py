@@ -1,14 +1,17 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5 import QtGui
 import os
 import pickle
+import utils
 
 
 class SaveWindow(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("注册信息")
+        self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
         self.formGroupBox = QGroupBox("注册信息")
 
         self.usernameLineEdit = QLineEdit()

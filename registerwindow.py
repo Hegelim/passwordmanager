@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QMessageBox
+from qtwidgets import PasswordEdit
 import utils
 import json
 
@@ -7,6 +8,7 @@ import json
 class RegisterWindow(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet('font-size: 15pt; font-family: Microsoft YaHei;')
         self.initUI()
         
     def initUI(self):
@@ -21,8 +23,8 @@ class RegisterWindow(QtWidgets.QDialog):
         # add form
         formlayout = QtWidgets.QFormLayout()
         self.username_edit = QtWidgets.QLineEdit()
-        self.password1_edit = QtWidgets.QLineEdit()
-        self.password2_edit = QtWidgets.QLineEdit()
+        self.password1_edit = PasswordEdit()
+        self.password2_edit = PasswordEdit()
         formlayout.addRow("用户名：", self.username_edit)
         formlayout.addRow("密码：", self.password1_edit)
         formlayout.addRow("请再次输入密码", self.password2_edit)

@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from mainscreen import MainWindow
 from registerwindow import RegisterWindow
+from qtwidgets import PasswordEdit
 import sys
 import utils
 import os
@@ -35,8 +36,12 @@ class Login(QtWidgets.QDialog):
                 
         self.password = QtWidgets.QLabel("密码")
         
-        self.lineEdit_password = QtWidgets.QLineEdit()
+        # self.lineEdit_password = QtWidgets.QLineEdit()
+        # self.lineEdit_password.setEchoMode(QtWidgets.QLineEdit.Password)
+        # formlayout.addRow(self.password, self.lineEdit_password)
+        self.lineEdit_password = PasswordEdit()
         formlayout.addRow(self.password, self.lineEdit_password)
+
         
         # button layout
         buttonlayout = QtWidgets.QHBoxLayout()

@@ -123,7 +123,7 @@ class MainWindow(QMainWindow):
             # dir might not have been selected
             if dir_name:
                 if os.path.exists(os.path.join(dir_name, utils.database_file)):
-                    msg = QtWidgets.QMessageBox()
+                    msg = QtWidgets.QMessageBox(self)
                     msg.setWindowTitle("导出")
                     msg.setIcon(QMessageBox.Question)
                     msg.setText(f"您要导出到{os.path.join(dir_name, utils.database_file)}")
@@ -137,7 +137,7 @@ class MainWindow(QMainWindow):
                         QtWidgets.QMessageBox.information(self, '取消', "已取消")
                     
                 else:
-                    msg = QtWidgets.QMessageBox()
+                    msg = QtWidgets.QMessageBox(self)
                     msg.setWindowTitle("导出")
                     msg.setIcon(QMessageBox.Question)
                     msg.setText(f"您要导出到{os.path.join(dir_name, utils.database_file)}")
@@ -149,8 +149,6 @@ class MainWindow(QMainWindow):
                         QtWidgets.QMessageBox.information(self, '成功', "导出成功")
                     else:
                         QtWidgets.QMessageBox.information(self, '取消', "已取消")
-            else:
-                QtWidgets.QMessageBox.warning(self, '警告', "您还未选择任何目录")
 
         else:
             QtWidgets.QMessageBox.warning(self, '警告', "您还未保存任何密码")

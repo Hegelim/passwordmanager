@@ -22,10 +22,10 @@ lock = os.path.abspath("favicons/lock.png")
 color = "#cbf3f0"
 
 # style sheet
+stylesheet = "style.css"
 style = """
 font-size: 18pt; 
 font-family: HanyiSentyMarshmallow; 
-background-color: #cae9ff;
 """
 
 pushbutton = """
@@ -33,6 +33,7 @@ QPushButton {
     padding: 10px;
 }
 """
+# background-color: #cae9ff;
 # border: 2px solid;
 # border-radius: 20px;
 
@@ -52,3 +53,11 @@ def gen_font(size, style="Microsoft YaHei"):
 
 def set_button_min_size(btn, minw, minh):
     btn.setMinimumSize(minw, minh)
+    
+
+def set_style(window, type="Fusion"):
+    """Load CSS style sheet to window"""
+    style = QtWidgets.QStyleFactory.create(type)
+    window.setStyle(style)
+    with open(stylesheet) as f:
+        window.setStyleSheet(f.read())

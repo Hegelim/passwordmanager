@@ -10,7 +10,7 @@ import utils
 class UpdateWindow(QDialog):
     def __init__(self, item):
         super().__init__()
-        self.setStyleSheet(utils.style)
+        utils.set_style(self)
 
         self.item = item
         self.setWindowTitle("注册信息")

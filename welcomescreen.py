@@ -8,12 +8,14 @@ import os
 import json
 import qdarktheme
 
+# global variable theme
+THEME = ""
 
 
-class Login(QtWidgets.QDialog):
+class Login(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet(utils.style)
+        utils.set_style(self)
         self.initUI()
     
 
@@ -23,7 +25,29 @@ class Login(QtWidgets.QDialog):
         self.setWindowIcon(QtGui.QIcon(utils.lock))
         utils.center(self)
         
+        # add menubar
+        menu = QtWidgets.QMenu("菜单", self)
+        defaultTheme = QtWidgets.QAction("默认主题", self)
+        kkTheme = QtWidgets.QAction("开开自定义主题", self)
+        lightTheme = QtWidgets.QAction("Light", self)
+        darkTheme = QtWidgets.QAction("Dark", self)
+        
+        menu.addAction(defaultTheme)
+        menu.addAction(kkTheme)
+        menu.addAction(lightTheme)
+        menu.addAction(darkTheme)
+        
+        defaultTheme.triggered.connect(self.setDefaultTheme)
+        kkTheme.triggered.connect(self.setkkTheme)
+        lightTheme.triggered.connect(self.setLightTheme)
+        darkTheme.triggered.connect(self.setDarkTheme)
+        
+        
+        self.menuBar().addMenu(menu)
+        
+    
         # set layout
+        widget = QtWidgets.QWidget()
         outerlayout = QtWidgets.QVBoxLayout()
         
         # set label
@@ -69,8 +93,9 @@ class Login(QtWidgets.QDialog):
         # set layout
         outerlayout.addLayout(formlayout)
         outerlayout.addLayout(buttonlayout)
-        self.setLayout(outerlayout)
-
+        widget.setLayout(outerlayout)
+        self.setCentralWidget(widget)
+        
 
     def handleLogin(self):
         # 1. check whether the user has registered
@@ -117,6 +142,67 @@ class Login(QtWidgets.QDialog):
             password['password'] == self.lineEdit_password.text()):
             return True
         return False
+    
+    
+    def setDefaultTheme(self):
+        style = QtWidgets.QStyleFactory.create("Fusion")
+        self.setStyle(style)
+        stylesheet = open(utils.stylesheet, "w")
+        stylesheet.write(
+            """* {
+                font-size: 18pt; 
+                font-family: HanyiSentyMarshmallow; 
+            }""")
+        stylesheet.close()
+        with open(utils.stylesheet) as f:
+            self.setStyleSheet(f.read())
+    
+    
+    def setkkTheme(self):
+        style = QtWidgets.QStyleFactory.create("Fusion")
+        self.setStyle(style)
+        stylesheet = open(utils.stylesheet, "w")
+        stylesheet.write(
+            """* {
+               font-size: 18pt; 
+               font-family: HanyiSentyMarshmallow; 
+               background-color: #cae9ff; 
+            }""")
+        stylesheet.close()
+        with open(utils.stylesheet) as f:
+            self.setStyleSheet(f.read())
+        
+        
+    def setLightTheme(self):
+        self.setStyleSheet(utils.style)
+        stylesheet = open(utils.stylesheet, "w")
+        stylesheet.write(qdarktheme.load_stylesheet("light"))
+        stylesheet.close()
+        stylesheet = open(utils.stylesheet, "a")
+        stylesheet.write(
+            """* {
+                font-size: 18pt; 
+                font-family: HanyiSentyMarshmallow;
+            }""")
+        stylesheet.close()
+        with open(utils.stylesheet) as f:
+            self.setStyleSheet(f.read())
+    
+    
+    def setDarkTheme(self):
+        self.setStyleSheet(utils.style)
+        stylesheet = open(utils.stylesheet, "w")
+        stylesheet.write(qdarktheme.load_stylesheet("dark"))
+        stylesheet.close()
+        stylesheet = open(utils.stylesheet, "a")
+        stylesheet.write(
+            """* {
+                font-size: 18pt; 
+                font-family: HanyiSentyMarshmallow;
+            }""")
+        stylesheet.close()
+        with open(utils.stylesheet) as f:
+            self.setStyleSheet(f.read())
         
 
 def resource_path(relative_path):
@@ -130,8 +216,15 @@ def resource_path(relative_path):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    app.setStyle("Fusion")
-    # app.setStyleSheet(qdarktheme.load_stylesheet("light"))
+    # if THEME == "kktheme":
+    #     app.setStyle("Fusion")
+    #     app.setStyleSheet(utils.style)
+    # elif THEME == "fusion":
+    #     app.setStyle("Fusion")
+    # stylesheet = qdarktheme.load_stylesheet(custom_colors={
+    #             "background": '#cae9ff', 
+    #             })
+    # app.setStyleSheet(stylesheet)
     login = Login()
     login.show()
     sys.exit(app.exec_())

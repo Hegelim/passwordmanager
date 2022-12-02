@@ -8,7 +8,7 @@ import json
 class RegisterWindow(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet(utils.style)
+        utils.set_style(self)
         self.initUI()
         
     def initUI(self):

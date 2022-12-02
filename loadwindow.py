@@ -11,11 +11,11 @@ import utils
 class LoadWindow(QDialog):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet(utils.style)
+        utils.set_style(self)
 
         self.setWindowTitle("读取")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
-        self.setGeometry(500, 200, 300, 400)
+        # self.setGeometry(500, 200, 300, 400)
 
         self.formGroupBox = QGroupBox("注册信息")
         self.nameLineEdit = QLineEdit()

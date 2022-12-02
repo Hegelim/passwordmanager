@@ -15,12 +15,11 @@ class LoadWindow(QDialog):
 
         self.setWindowTitle("读取")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
-        # self.setGeometry(500, 200, 300, 400)
 
         self.formGroupBox = QGroupBox("注册信息")
         self.formGroupBox.setStyleSheet(
             """QGroupBox {
-                padding-top: 20px;
+                padding-top: 30px;
             }
             """
         )
@@ -35,6 +34,7 @@ class LoadWindow(QDialog):
 
         # =============================
         self.listWidget = QListWidget(self)
+        self.listWidget.setMinimumHeight(200)
         self.displayregistration()
         self.listWidget.itemDoubleClicked.connect(self.doubleClickInfo)
 

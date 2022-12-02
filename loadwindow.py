@@ -18,8 +18,16 @@ class LoadWindow(QDialog):
         # self.setGeometry(500, 200, 300, 400)
 
         self.formGroupBox = QGroupBox("注册信息")
+        self.formGroupBox.setStyleSheet(
+            """QGroupBox {
+                padding-top: 20px;
+            }
+            """
+        )
         self.nameLineEdit = QLineEdit()
-        self.createForm()
+        formlayout = QtWidgets.QFormLayout()
+        formlayout.addRow(QLabel("名称"), self.nameLineEdit)
+        self.formGroupBox.setLayout(formlayout)
 
         self.searchButton = QPushButton(self)
         self.searchButton.setText("搜索")
@@ -99,10 +107,3 @@ class LoadWindow(QDialog):
                     with open(utils.database_file, 'wb') as f:
                         pickle.dump(datadict, f)
                     QtWidgets.QMessageBox.information(self, "删除", "删除成功")
-
-
-    def createForm(self):
-        # creating a form layout
-        layout = QFormLayout()
-        layout.addRow(QLabel("名称"), self.nameLineEdit)
-        self.formGroupBox.setLayout(layout)

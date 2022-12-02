@@ -23,18 +23,19 @@ color = "#cbf3f0"
 
 # style sheet
 style = """
-font-size: 15pt; 
+font-size: 18pt; 
 font-family: HanyiSentyMarshmallow; 
+background-color: #cae9ff;
 """
 
 pushbutton = """
 QPushButton {
     padding: 10px;
-    border: 2px solid;
-    border-radius: 20px;
 }
 """
 # background-color: #cae9ff; 
+# border: 2px solid;
+# border-radius: 20px;
 
 
 def center(window):

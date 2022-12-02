@@ -26,7 +26,7 @@ class Login(QtWidgets.QMainWindow):
         utils.center(self)
         
         # add menubar
-        menu = QtWidgets.QMenu("菜单", self)
+        menu = QtWidgets.QMenu("主题", self)
         defaultTheme = QtWidgets.QAction("默认主题", self)
         kkTheme = QtWidgets.QAction("开开自定义主题", self)
         lightTheme = QtWidgets.QAction("Light", self)
@@ -216,15 +216,6 @@ def resource_path(relative_path):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    # if THEME == "kktheme":
-    #     app.setStyle("Fusion")
-    #     app.setStyleSheet(utils.style)
-    # elif THEME == "fusion":
-    #     app.setStyle("Fusion")
-    # stylesheet = qdarktheme.load_stylesheet(custom_colors={
-    #             "background": '#cae9ff', 
-    #             })
-    # app.setStyleSheet(stylesheet)
     login = Login()
     login.show()
     sys.exit(app.exec_())

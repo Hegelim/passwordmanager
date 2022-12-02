@@ -26,5 +26,6 @@ pyinstaller --onedir --windowed welcomescreen.py
 * Delete entries
 * Export entries
 * Backup with Google Drive
+* Styled
 
 

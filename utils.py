@@ -33,7 +33,6 @@ QPushButton {
     padding: 10px;
 }
 """
-# background-color: #cae9ff; 
 # border: 2px solid;
 # border-radius: 20px;
 

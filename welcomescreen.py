@@ -6,6 +6,8 @@ import sys
 import utils
 import os
 import json
+import qdarktheme
+
 
 
 class Login(QtWidgets.QDialog):
@@ -129,6 +131,7 @@ def resource_path(relative_path):
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
+    # app.setStyleSheet(qdarktheme.load_stylesheet("light"))
     login = Login()
     login.show()
     sys.exit(app.exec_())

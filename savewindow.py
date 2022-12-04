@@ -10,7 +10,6 @@ import utils
 class SaveWindow(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        utils.set_style(self)
         
         self.setWindowTitle("注册信息")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))

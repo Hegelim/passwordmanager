@@ -8,7 +8,6 @@ import json
 class ModifyRegisterWindow(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        utils.set_style(self)
         self.initUI()
         
         

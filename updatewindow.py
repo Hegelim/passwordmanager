@@ -8,9 +8,8 @@ import utils
 
 
 class UpdateWindow(QDialog):
-    def __init__(self, item):
-        super().__init__()
-        utils.set_style(self)
+    def __init__(self, parent, item):
+        super().__init__(parent)
 
         self.item = item
         self.setWindowTitle("注册信息")

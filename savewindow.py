@@ -21,14 +21,16 @@ class SaveWindow(QDialog):
         self.nameLineEdit = QLineEdit()
 
         self.createForm()
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.buttonBox.accepted.connect(self.saveregistration)
-        self.buttonBox.rejected.connect(self.reject)
+        self.buttons = QDialogButtonBox(self)
+        self.saveButton = self.buttons.addButton("保存", QDialogButtonBox.ActionRole)
+        self.cancelButton = self.buttons.addButton("取消", QDialogButtonBox.RejectRole)
+        self.saveButton.clicked.connect(self.saveregistration)
+        self.cancelButton.clicked.connect(self.reject)
 
         mainLayout = QVBoxLayout()
 
         mainLayout.addWidget(self.formGroupBox)
-        mainLayout.addWidget(self.buttonBox)
+        mainLayout.addWidget(self.buttons)
         self.setLayout(mainLayout)
         
         

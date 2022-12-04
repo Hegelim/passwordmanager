@@ -1,3 +1,4 @@
+"""读取界面"""
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -16,13 +17,13 @@ class LoadWindow(QDialog):
         self.setWindowTitle("读取")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
 
-        self.formGroupBox = QGroupBox("注册信息")
-        self.formGroupBox.setStyleSheet(
-            """QGroupBox {
-                padding-top: 30px;
-            }
-            """
-        )
+        self.formGroupBox = QGroupBox()
+        # self.formGroupBox.setStyleSheet(
+        #     """QGroupBox {
+        #         padding-top: 30px;
+        #     }
+        #     """
+        # )
         self.nameLineEdit = QLineEdit()
         formlayout = QtWidgets.QFormLayout()
         formlayout.addRow(QLabel("名称"), self.nameLineEdit)
@@ -31,6 +32,10 @@ class LoadWindow(QDialog):
         self.searchButton = QPushButton(self)
         self.searchButton.setText("搜索")
         self.searchButton.clicked.connect(self.search)
+        
+        self.sortButton = QPushButton(self)
+        self.sortButton.setText("排序")
+        self.sortButton.clicked.connect(self.sortEntries)
 
         # =============================
         self.listWidget = QListWidget(self)
@@ -49,9 +54,11 @@ class LoadWindow(QDialog):
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.formGroupBox)
         mainLayout.addWidget(self.searchButton)
+        mainLayout.addWidget(self.sortButton)
         mainLayout.addWidget(self.listWidget)
         mainLayout.addWidget(self.buttonBox)
         self.setLayout(mainLayout)
+
 
     def displayregistration(self):
         if os.path.exists(utils.database_file):
@@ -61,12 +68,15 @@ class LoadWindow(QDialog):
             for key in datadict.keys():
                 QListWidgetItem(key, self.listWidget)
 
+
     def search(self):
         self.listWidget.clear()
         if os.path.exists(utils.database_file):
             with open(utils.database_file, "rb") as f:
                 datadict = pickle.load(f)
 
+            # if use didn't put anything for keyword
+            # then display everything
             if self.nameLineEdit.text() == "":
                 for key in datadict.keys():
                     QListWidgetItem(key, self.listWidget)
@@ -74,6 +84,27 @@ class LoadWindow(QDialog):
                 for key in datadict.keys():
                     if self.nameLineEdit.text().lower() in key.lower():
                         QListWidgetItem(key, self.listWidget)
+        else:
+            QtWidgets.QMessageBox.information(self, "错误", "您还未存储任何记录")
+
+
+    def sortEntries(self):
+        self.listWidget.clear()
+        sortedEntries = {}
+        if os.path.exists(utils.database_file):
+            with open(utils.database_file, "rb") as f:
+                datadict = pickle.load(f)
+                
+            for key in sorted(datadict.keys()):
+                sortedEntries[key] = datadict[key]
+                QListWidgetItem(key, self.listWidget)
+            
+            with open(utils.database_file, "wb") as f:
+                pickle.dump(sortedEntries, f)
+                
+            QtWidgets.QMessageBox.information(self, "成功", "排序成功")
+        else:
+            QtWidgets.QMessageBox.information(self, "错误", "您还未存储任何记录")
 
 
     def doubleClickInfo(self, item):

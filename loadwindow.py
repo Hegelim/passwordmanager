@@ -44,11 +44,11 @@ class LoadWindow(QDialog):
         self.listWidget.itemDoubleClicked.connect(self.doubleClickInfo)
 
         # =============================
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Close)
-        self.deleteButton = self.buttonBox.addButton("Delete", QDialogButtonBox.ActionRole)
+        self.buttonBox = QDialogButtonBox(self)
+        self.deleteButton = self.buttonBox.addButton("删除", QDialogButtonBox.ActionRole)
+        self.closeButton = self.buttonBox.addButton("保存并返回", QDialogButtonBox.RejectRole)
         self.deleteButton.clicked.connect(self.deleteEntry)
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
+        self.closeButton.clicked.connect(self.reject)
 
         # ==========================
         mainLayout = QVBoxLayout()

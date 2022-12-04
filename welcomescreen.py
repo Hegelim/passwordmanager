@@ -99,9 +99,9 @@ class Login(QtWidgets.QMainWindow):
             
         # 3. check whether it matches the password
         elif self.match_password():
-            self.window = MainWindow(self)
+            self.window = MainWindow()
             self.window.show()
-            self.hide()
+            self.close()
         
         # 4. wrong password
         else:

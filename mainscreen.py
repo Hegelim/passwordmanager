@@ -24,7 +24,7 @@ import utils
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-        # utils.set_style(self)
+        utils.set_style(self)
         self.initUI()
         
     def initUI(self):

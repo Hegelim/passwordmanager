@@ -30,7 +30,6 @@ class MainWindow(QMainWindow):
     def initUI(self):
         self.setWindowTitle("密码管理助手")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
-        # utils.center(self)
         
         # set layout
         widget = QWidget()
@@ -85,14 +84,10 @@ class MainWindow(QMainWindow):
 
     def save(self):
         self.savewindow = SaveWindow(self)
-        self.savewindow.setGeometry(QRect(400, 400, 400, 200))
-        utils.center(self.savewindow)
         self.savewindow.show()
 
     def load(self):
         self.loadwindow = LoadWindow(self)
-        self.loadwindow.setGeometry(QRect(400, 400, 400, 200))
-        utils.center(self.loadwindow)
         self.loadwindow.show()
         
     def sync(self):
@@ -152,11 +147,3 @@ class MainWindow(QMainWindow):
 
         else:
             QtWidgets.QMessageBox.warning(self, '警告', "您还未保存任何密码")
-        
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     app.setStyle("Fusion")
-#     mainwindow = MainWindow()
-#     mainwindow.show()
-#     sys.exit(app.exec_())

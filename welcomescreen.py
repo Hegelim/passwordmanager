@@ -117,7 +117,6 @@ class Login(QtWidgets.QMainWindow):
         
         else:
             self.registerwindow = RegisterWindow(self)
-            # utils.center(self.registerwindow)
             self.registerwindow.show()
 
 

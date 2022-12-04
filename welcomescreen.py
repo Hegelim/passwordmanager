@@ -1,7 +1,6 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5 import QtWidgets, QtGui
 from mainscreen import MainWindow
 from registerwindow import RegisterWindow
-from modifyRegisterWindow import ModifyRegisterWindow
 from modify_register_ask_secrets import AskSecrets
 from qtwidgets import PasswordEdit
 import sys
@@ -63,17 +62,17 @@ class Login(QtWidgets.QMainWindow):
         # button layout
         buttonlayout = QtWidgets.QHBoxLayout()
         self.loginbutton = QtWidgets.QPushButton("登录")
-        self.loginbutton.setMinimumSize(120, 70)
+        self.loginbutton.setMinimumSize(100, 70)
         self.loginbutton.clicked.connect(self.handleLogin)
         self.loginbutton.setStyleSheet(utils.pushbutton)
         
         self.registerbutton = QtWidgets.QPushButton("注册")
-        self.registerbutton.setMinimumSize(120, 70)
+        self.registerbutton.setMinimumSize(100, 70)
         self.registerbutton.clicked.connect(self.handleRegister)
         self.registerbutton.setStyleSheet(utils.pushbutton)
 
         self.modifyRegistration = QtWidgets.QPushButton("修改/忘记密码")
-        self.modifyRegistration.setMinimumSize(120, 70)
+        self.modifyRegistration.setMinimumSize(160, 70)
         self.modifyRegistration.clicked.connect(self.modifyRegister)
         self.modifyRegistration.setStyleSheet(utils.pushbutton)
         
@@ -146,7 +145,7 @@ class Login(QtWidgets.QMainWindow):
         stylesheet.write(
             """* {
                 font-size: 18pt; 
-                font-family: HanyiSentyMarshmallow; 
+                font-family: Microsoft YaHei; 
             }""")
         stylesheet.close()
         with open(utils.stylesheet) as f:
@@ -160,7 +159,7 @@ class Login(QtWidgets.QMainWindow):
         stylesheet.write(
             """* {
                font-size: 18pt; 
-               font-family: HanyiSentyMarshmallow; 
+               font-family: Microsoft YaHei; 
                background-color: #cae9ff; 
             }""")
         stylesheet.close()
@@ -177,7 +176,7 @@ class Login(QtWidgets.QMainWindow):
         stylesheet.write(
             """* {
                 font-size: 18pt; 
-                font-family: HanyiSentyMarshmallow;
+                font-family: Microsoft YaHei;
             }""")
         stylesheet.close()
         with open(utils.stylesheet) as f:
@@ -193,7 +192,7 @@ class Login(QtWidgets.QMainWindow):
         stylesheet.write(
             """* {
                 font-size: 18pt; 
-                font-family: HanyiSentyMarshmallow;
+                font-family: Microsoft YaHei;
             }""")
         stylesheet.close()
         with open(utils.stylesheet) as f:

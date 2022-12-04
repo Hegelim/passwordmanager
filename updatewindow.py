@@ -14,7 +14,7 @@ class UpdateWindow(QDialog):
         self.item = item
         self.setWindowTitle("注册信息")
         self.setWindowIcon(QtGui.QIcon(utils.pen))
-        self.formGroupBox = QGroupBox("注册信息")
+        self.formGroupBox = QGroupBox()
         self.usernameLineEdit = QLineEdit()
         self.passwordLineEdit = QLineEdit()
         self.websiteLineEdit = QLineEdit()

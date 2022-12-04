@@ -32,10 +32,6 @@ class LoadWindow(QDialog):
         self.searchButton.setText("搜索")
         self.searchButton.clicked.connect(self.search)
         
-        self.sortButton = QPushButton(self)
-        self.sortButton.setText("排序")
-        self.sortButton.clicked.connect(self.sortEntries)
-
         # =============================
         self.listWidget = QListWidget(self)
         self.listWidget.setMinimumHeight(200)
@@ -45,16 +41,20 @@ class LoadWindow(QDialog):
 
         # =============================
         self.buttonBox = QDialogButtonBox(self)
+        
+        self.sortButton = self.buttonBox.addButton("排序", QDialogButtonBox.ActionRole)
+        self.sortButton.clicked.connect(self.sortEntries)
+        
         self.deleteButton = self.buttonBox.addButton("删除", QDialogButtonBox.ActionRole)
-        self.closeButton = self.buttonBox.addButton("保存并返回", QDialogButtonBox.RejectRole)
         self.deleteButton.clicked.connect(self.deleteEntry)
+        
+        self.closeButton = self.buttonBox.addButton("保存并返回", QDialogButtonBox.RejectRole)
         self.closeButton.clicked.connect(self.reject)
 
         # ==========================
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.formGroupBox)
         mainLayout.addWidget(self.searchButton)
-        mainLayout.addWidget(self.sortButton)
         mainLayout.addWidget(self.listWidget)
         mainLayout.addWidget(self.buttonBox)
         self.setLayout(mainLayout)

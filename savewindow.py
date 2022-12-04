@@ -8,13 +8,13 @@ import utils
 
 
 class SaveWindow(QDialog):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         utils.set_style(self)
         
         self.setWindowTitle("注册信息")
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
-        self.formGroupBox = QGroupBox("注册信息")
+        self.formGroupBox = QGroupBox()
 
         self.usernameLineEdit = QLineEdit()
         self.passwordLineEdit = QLineEdit()

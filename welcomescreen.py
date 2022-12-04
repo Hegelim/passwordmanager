@@ -1,15 +1,14 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from mainscreen import MainWindow
 from registerwindow import RegisterWindow
+from modifyRegisterWindow import ModifyRegisterWindow
+from modify_register_ask_secrets import AskSecrets
 from qtwidgets import PasswordEdit
 import sys
 import utils
 import os
 import json
 import qdarktheme
-
-# global variable theme
-THEME = ""
 
 
 class Login(QtWidgets.QMainWindow):
@@ -23,7 +22,6 @@ class Login(QtWidgets.QMainWindow):
         """Initialize window"""
         self.setWindowTitle("登录页面")
         self.setWindowIcon(QtGui.QIcon(utils.lock))
-        utils.center(self)
         
         # add menubar
         menu = QtWidgets.QMenu("主题", self)
@@ -45,7 +43,6 @@ class Login(QtWidgets.QMainWindow):
         
         self.menuBar().addMenu(menu)
         
-    
         # set layout
         widget = QtWidgets.QWidget()
         outerlayout = QtWidgets.QVBoxLayout()
@@ -61,13 +58,8 @@ class Login(QtWidgets.QMainWindow):
         formlayout.addRow(self.username, self.lineEdit_username)
                 
         self.password = QtWidgets.QLabel("密码")
-        
-        # self.lineEdit_password = QtWidgets.QLineEdit()
-        # self.lineEdit_password.setEchoMode(QtWidgets.QLineEdit.Password)
-        # formlayout.addRow(self.password, self.lineEdit_password)
         self.lineEdit_password = PasswordEdit()
         formlayout.addRow(self.password, self.lineEdit_password)
-
         
         # button layout
         buttonlayout = QtWidgets.QHBoxLayout()
@@ -81,14 +73,14 @@ class Login(QtWidgets.QMainWindow):
         self.registerbutton.clicked.connect(self.handleRegister)
         self.registerbutton.setStyleSheet(utils.pushbutton)
 
+        self.modifyRegistration = QtWidgets.QPushButton("修改/忘记密码")
+        self.modifyRegistration.setMinimumSize(80, 50)
+        self.modifyRegistration.clicked.connect(self.modifyRegister)
+        self.modifyRegistration.setStyleSheet(utils.pushbutton)
         
-        self.forgetbutton = QtWidgets.QPushButton("忘记密码")
-        self.forgetbutton.setMinimumSize(80, 50)
-        self.forgetbutton.clicked.connect(self.handleForget)
-        self.forgetbutton.setStyleSheet(utils.pushbutton)
         buttonlayout.addWidget(self.loginbutton)
         buttonlayout.addWidget(self.registerbutton)
-        buttonlayout.addWidget(self.forgetbutton)
+        buttonlayout.addWidget(self.modifyRegistration)
         
         # set layout
         outerlayout.addLayout(formlayout)
@@ -109,9 +101,9 @@ class Login(QtWidgets.QMainWindow):
             
         # 3. check whether it matches the password
         elif self.match_password():
-            self.window = MainWindow()
+            self.window = MainWindow(self)
             self.window.show()
-            self.close()
+            self.hide()
         
         # 4. wrong password
         else:
@@ -126,14 +118,18 @@ class Login(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self, '错误', '您已注册')
         
         else:
-            self.registerwindow = RegisterWindow()
-            utils.center(self.registerwindow)
+            self.registerwindow = RegisterWindow(self)
+            # utils.center(self.registerwindow)
             self.registerwindow.show()
 
 
-    def handleForget(self):
-        QtWidgets.QMessageBox.information(self, '忘记密码', "请联系开发者并支付10元")
-        
+    def modifyRegister(self):
+        if not os.path.exists(utils.password_file):
+            QtWidgets.QMessageBox.warning(self, '错误', '您还未注册')
+        else:
+            askSecrets = AskSecrets(self)
+            askSecrets.show()
+    
     
     def match_password(self):
         with open(utils.password_file, "r") as f:
@@ -204,15 +200,6 @@ class Login(QtWidgets.QMainWindow):
         with open(utils.stylesheet) as f:
             self.setStyleSheet(f.read())
         
-
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

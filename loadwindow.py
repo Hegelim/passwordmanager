@@ -9,8 +9,8 @@ import utils
 
 
 class LoadWindow(QDialog):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         utils.set_style(self)
 
         self.setWindowTitle("读取")

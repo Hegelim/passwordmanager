@@ -1,46 +1,53 @@
 from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtWidgets import QMessageBox, QDialogButtonBox
+from PyQt5.QtWidgets import QMessageBox
 from qtwidgets import PasswordEdit
 import utils
 import json
 
 
-class RegisterWindow(QtWidgets.QDialog):
-    def __init__(self, parent):
+class ModifyRegisterWindow(QtWidgets.QDialog):
+    def __init__(self, parent=None):
         super().__init__(parent)
-        # utils.set_style(self)
+        utils.set_style(self)
         self.initUI()
         
+        
     def initUI(self):
-        self.setWindowTitle("注册")
+        self.setWindowTitle("修改注册")
         self.setWindowIcon(QtGui.QIcon(utils.pen))
         
-        # add label
         layout = QtWidgets.QVBoxLayout()
         
         # add form
         groupbox = QtWidgets.QGroupBox(self)
+        
+        with open(utils.password_file, "r") as f:
+            password = json.load(f)
+        
         formlayout = QtWidgets.QFormLayout()
-        self.username_edit = QtWidgets.QLineEdit()
+        self.username_edit = QtWidgets.QLineEdit(password['username'])
         self.password1_edit = PasswordEdit()
         self.password2_edit = PasswordEdit()
+        
         self.secrets = PasswordEdit()
         formlayout.addRow("用户名", self.username_edit)
         formlayout.addRow("密码", self.password1_edit)
         formlayout.addRow("请再次输入密码", self.password2_edit)
         formlayout.addRow("请输入6位数字用于找回密码", self.secrets)
         groupbox.setLayout(formlayout)
-
+        
         # add buttons
-        buttons = QDialogButtonBox(self)        
-        saveButton = buttons.addButton("保存", QDialogButtonBox.ActionRole)
-        cancelButton = buttons.addButton("取消", QDialogButtonBox.RejectRole)
+        buttons = QtWidgets.QDialogButtonBox(self)
+        saveButton = buttons.addButton("保存", QtWidgets.QDialogButtonBox.ActionRole)
+        cancelButton = buttons.addButton("取消", QtWidgets.QDialogButtonBox.RejectRole)
+        
+        # link buttons to functions
         saveButton.clicked.connect(self.handlesave)
         cancelButton.clicked.connect(self.handlecancel)
         
         # nest layouts
         layout.addWidget(groupbox)
-        layout.addWidget(buttons)
+        layout.addWidget(buttons)        
         self.setLayout(layout)
         
         

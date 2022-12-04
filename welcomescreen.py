@@ -25,10 +25,10 @@ class Login(QtWidgets.QMainWindow):
         
         # add menubar
         menu = QtWidgets.QMenu("主题", self)
-        defaultTheme = QtWidgets.QAction("默认主题", self)
-        kkTheme = QtWidgets.QAction("开开自定义主题", self)
-        lightTheme = QtWidgets.QAction("Light", self)
-        darkTheme = QtWidgets.QAction("Dark", self)
+        defaultTheme = QtWidgets.QAction("默认", self)
+        kkTheme = QtWidgets.QAction("开开自定义", self)
+        lightTheme = QtWidgets.QAction("浅色", self)
+        darkTheme = QtWidgets.QAction("深色", self)
         
         menu.addAction(defaultTheme)
         menu.addAction(kkTheme)
@@ -39,7 +39,6 @@ class Login(QtWidgets.QMainWindow):
         kkTheme.triggered.connect(self.setkkTheme)
         lightTheme.triggered.connect(self.setLightTheme)
         darkTheme.triggered.connect(self.setDarkTheme)
-        
         
         self.menuBar().addMenu(menu)
         

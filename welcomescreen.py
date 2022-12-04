@@ -63,17 +63,17 @@ class Login(QtWidgets.QMainWindow):
         # button layout
         buttonlayout = QtWidgets.QHBoxLayout()
         self.loginbutton = QtWidgets.QPushButton("登录")
-        self.loginbutton.setMinimumSize(80, 50)
+        self.loginbutton.setMinimumSize(120, 70)
         self.loginbutton.clicked.connect(self.handleLogin)
         self.loginbutton.setStyleSheet(utils.pushbutton)
         
         self.registerbutton = QtWidgets.QPushButton("注册")
-        self.registerbutton.setMinimumSize(80, 50)
+        self.registerbutton.setMinimumSize(120, 70)
         self.registerbutton.clicked.connect(self.handleRegister)
         self.registerbutton.setStyleSheet(utils.pushbutton)
 
         self.modifyRegistration = QtWidgets.QPushButton("修改/忘记密码")
-        self.modifyRegistration.setMinimumSize(80, 50)
+        self.modifyRegistration.setMinimumSize(120, 70)
         self.modifyRegistration.clicked.connect(self.modifyRegister)
         self.modifyRegistration.setStyleSheet(utils.pushbutton)
         

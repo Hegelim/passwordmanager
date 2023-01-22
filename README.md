@@ -10,6 +10,12 @@ export DISPLAY=$(route.exe print | grep 0.0.0.0 | head -1 | awk '{print $4}'):0.
 python welcomescreen.py
 ```
 
+## Development in Windows
+
+```
+python welcomescreen.py
+```
+
 ## Export
 
 Make sure you are in windows environment so that the execuatable file is .exe

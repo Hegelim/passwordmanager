@@ -34,7 +34,7 @@ class LoadWindow(QDialog):
         
         # =============================
         self.listWidget = QListWidget(self)
-        self.listWidget.setMinimumHeight(200)
+        self.listWidget.setMinimumHeight(400)
         self.listWidget.setMinimumWidth(400)
         self.displayregistration()
         self.listWidget.itemDoubleClicked.connect(self.doubleClickInfo)

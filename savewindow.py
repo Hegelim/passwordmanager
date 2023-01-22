@@ -12,6 +12,8 @@ class SaveWindow(QDialog):
         super().__init__(parent)
         
         self.setWindowTitle("注册信息")
+        # save enough room for email
+        self.setMinimumWidth(700)
         self.setWindowIcon(QtGui.QIcon(utils.card_file_box))
         self.formGroupBox = QGroupBox()
 
@@ -36,10 +38,10 @@ class SaveWindow(QDialog):
         
     def createForm(self):
         layout = QFormLayout()
-        layout.addRow(QLabel("用户名:"), self.usernameLineEdit)
-        layout.addRow(QLabel("密码:"), self.passwordLineEdit)
-        layout.addRow(QLabel("网址:"), self.websiteLineEdit)
-        layout.addRow(QLabel("给它命个名吧:"), self.nameLineEdit)
+        layout.addRow(QLabel("用户名/邮箱"), self.usernameLineEdit)
+        layout.addRow(QLabel("密码"), self.passwordLineEdit)
+        layout.addRow(QLabel("网址"), self.websiteLineEdit)
+        layout.addRow(QLabel("给它命个名吧"), self.nameLineEdit)
         self.formGroupBox.setLayout(layout)
 
 

@@ -72,9 +72,9 @@ class UpdateWindow(QDialog):
 
     def createForm(self, item):
         layout = QFormLayout()
-        layout.addRow(QLabel("用户名:"), self.usernameLineEdit)
-        layout.addRow(QLabel("密码:"), self.passwordLineEdit)
-        layout.addRow(QLabel("网址:"), self.websiteLineEdit)
+        layout.addRow(QLabel("用户名"), self.usernameLineEdit)
+        layout.addRow(QLabel("密码"), self.passwordLineEdit)
+        layout.addRow(QLabel("网址"), self.websiteLineEdit)
 
         if os.path.exists(utils.database_file):
             with open(utils.database_file, "rb") as f:

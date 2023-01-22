@@ -23,7 +23,7 @@ class Login(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(utils.lock))
         
         # add menubar
-        menu = QtWidgets.QMenu("主题", self)
+        menu = QtWidgets.QMenu("&主题", self)
         defaultTheme = QtWidgets.QAction("默认", self)
         kkTheme = QtWidgets.QAction("开开自定义", self)
         lightTheme = QtWidgets.QAction("浅色", self)
@@ -40,6 +40,10 @@ class Login(QtWidgets.QMainWindow):
         darkTheme.triggered.connect(self.setDarkTheme)
         
         self.menuBar().addMenu(menu)
+        helpMenu = self.menuBar().addMenu("&帮助")
+        helpAction = QtWidgets.QAction("安装信息", self)
+        helpAction.triggered.connect(self.showInfo)
+        helpMenu.addAction(helpAction)
         
         # set layout
         widget = QtWidgets.QWidget()
@@ -196,6 +200,25 @@ class Login(QtWidgets.QMainWindow):
         stylesheet.close()
         with open(utils.stylesheet) as f:
             self.setStyleSheet(f.read())
+            
+            
+    def showInfo(self):
+        diagbox = QtWidgets.QDialog(self)
+        diagbox.setWindowTitle("安装信息")
+        
+        # Layout
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(QtWidgets.QLabel(f"安装目录: {os.getcwd()}"))
+        layout.addWidget(QtWidgets.QLabel(f"版本信息: v1.2.0"))
+        layout.addWidget(QtWidgets.QLabel(f"发布时间: 2023.1.22"))
+        layout.addWidget(QtWidgets.QLabel(f"开发者: zyw"))
+        buttonBox = QtWidgets.QDialogButtonBox(self)
+        okbutton = buttonBox.addButton("好的", QtWidgets.QDialogButtonBox.AcceptRole)
+        okbutton.clicked.connect(diagbox.accept)
+        layout.addWidget(buttonBox)
+        diagbox.setLayout(layout)
+        diagbox.exec()
+        
         
 
 if __name__ == '__main__':

@@ -95,7 +95,7 @@ class LoadWindow(QDialog):
             with open(utils.database_file, "rb") as f:
                 datadict = pickle.load(f)
                 
-            for key in sorted(datadict.keys()):
+            for key in sorted(datadict.keys(), key=lambda x: x.upper()):
                 sortedEntries[key] = datadict[key]
                 QListWidgetItem(key, self.listWidget)
             

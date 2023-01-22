@@ -38,13 +38,38 @@ class SaveWindow(QDialog):
         
     def createForm(self):
         layout = QFormLayout()
+        
+        radioBox = QGroupBox()
+        layout.addRow(QLabel("账号"), radioBox)
+        hbox = QHBoxLayout()
+        self.googleAccount = QRadioButton("谷歌账号", self)
+        self.googleAccount.toggled.connect(self.googleAction)
+        self.nonGoogleAct = QRadioButton("非谷歌账号", self)
+        self.nonGoogleAct.toggled.connect(self.nongoogleAction)
+        self.nonGoogleAct.setChecked(True)
+        hbox.addWidget(self.googleAccount)
+        hbox.addWidget(self.nonGoogleAct)
+        radioBox.setLayout(hbox)
+        
         layout.addRow(QLabel("用户名/邮箱"), self.usernameLineEdit)
         layout.addRow(QLabel("密码"), self.passwordLineEdit)
         layout.addRow(QLabel("网址"), self.websiteLineEdit)
         layout.addRow(QLabel("给它命个名吧"), self.nameLineEdit)
+        
         self.formGroupBox.setLayout(layout)
-
-
+        
+    
+    def googleAction(self, selected):
+        if selected:
+            self.passwordLineEdit.setText("")
+            self.passwordLineEdit.setDisabled(True)
+            
+    
+    def nongoogleAction(self, selected):
+        if selected:
+            self.passwordLineEdit.setDisabled(False)
+    
+    
     def saveregistration(self):
         """Save a dictionary."""
         # check whether the file exists
@@ -55,23 +80,44 @@ class SaveWindow(QDialog):
             datadict = {}
 
         # check whether any entry is empty
-        if (self.usernameLineEdit.text() != "" and
-            self.passwordLineEdit.text() != "" and
-            self.websiteLineEdit.text() != "" and
-            self.nameLineEdit.text() != ""):
+        if self.googleAccount.isChecked():
+            if (self.usernameLineEdit.text() != "" and
+                self.websiteLineEdit.text() != "" and
+                self.nameLineEdit.text() != ""):
+                
+                newDict = {
+                    "username": self.usernameLineEdit.text(),
+                    "password": self.passwordLineEdit.text(),
+                    "website": self.websiteLineEdit.text(),
+                }
+                datadict[self.nameLineEdit.text()] = newDict
 
-            newDict = {
-                "username": self.usernameLineEdit.text(),
-                "password": self.passwordLineEdit.text(),
-                "website": self.websiteLineEdit.text(),
-            }
-            datadict[self.nameLineEdit.text()] = newDict
+                with open('database.pkl', 'wb') as f:
+                    pickle.dump(datadict, f)
+                
+                QtWidgets.QMessageBox.information(self, "保存", "保存成功！")
+                self.close()
+            else:
+                QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")
 
-            with open('database.pkl', 'wb') as f:
-                pickle.dump(datadict, f)
-            
-            QtWidgets.QMessageBox.information(self, "保存", "保存成功！")
-            self.close()
-        else:
-            QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")
+                
+        elif self.nonGoogleAct.isChecked():
+            if (self.usernameLineEdit.text() != "" and
+                self.passwordLineEdit.text() != "" and
+                self.websiteLineEdit.text() != "" and
+                self.nameLineEdit.text() != ""):
+        
+                newDict = {
+                    "username": self.usernameLineEdit.text(),
+                    "password": self.passwordLineEdit.text(),
+                    "website": self.websiteLineEdit.text(),
+                }
+                datadict[self.nameLineEdit.text()] = newDict
 
+                with open('database.pkl', 'wb') as f:
+                    pickle.dump(datadict, f)
+                
+                QtWidgets.QMessageBox.information(self, "保存", "保存成功！")
+                self.close()
+            else:
+                QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")

@@ -53,6 +53,15 @@ class Login(QtWidgets.QMainWindow):
         self.label = QtWidgets.QLabel("欢迎使用密码管理小助手")
         outerlayout.addWidget(self.label)
         
+        # # login using password/qrcode
+        # self.loginMethod = QtWidgets.QLabel("请选择登录方式")
+        # self.loginBox = QtWidgets.QGroupBox()
+        # outerlayout.addWidget(self.loginMethod)
+        # outerlayout.addWidget(self.loginBox)
+        # loginForm = QtWidgets.QFormLayout()
+        
+        
+        
         # form
         formlayout = QtWidgets.QFormLayout()
         self.username = QtWidgets.QLabel("用户名")
@@ -97,9 +106,9 @@ class Login(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self, '错误', '您还未注册')
             
         # 2. check whether input is empty
-        elif (self.lineEdit_username.text() == "" or 
-              self.lineEdit_password.text() == ""):
-            QtWidgets.QMessageBox.warning(self, '错误', '输入不能为空')
+        elif (" " in self.lineEdit_username.text() or 
+              " " in self.lineEdit_password.text()):
+            QtWidgets.QMessageBox.warning(self, '错误', '输入不能为空或含有空格')
             
         # 3. check whether it matches the password
         elif self.match_password():
@@ -211,7 +220,7 @@ class Login(QtWidgets.QMainWindow):
         layout.addWidget(QtWidgets.QLabel(f"安装目录: {os.getcwd()}"))
         layout.addWidget(QtWidgets.QLabel(f"版本信息: v1.2.0"))
         layout.addWidget(QtWidgets.QLabel(f"发布时间: 2023.1.22"))
-        layout.addWidget(QtWidgets.QLabel(f"开发者: zyw"))
+        layout.addWidget(QtWidgets.QLabel(f"联系开发者: yz4175@columbia.edu"))
         buttonBox = QtWidgets.QDialogButtonBox(self)
         okbutton = buttonBox.addButton("好的", QtWidgets.QDialogButtonBox.AcceptRole)
         okbutton.clicked.connect(diagbox.accept)

@@ -40,8 +40,8 @@ class AskSecrets(QtWidgets.QDialog):
             password = json.load(f)
         
         # if empty
-        if self.secrets.text() == "":
-            QtWidgets.QMessageBox.warning(self, "错误", "输入不能为空")
+        if " " in self.secrets.text():
+            QtWidgets.QMessageBox.warning(self, "错误", "输入不能为空或含有空格")
         # if secrets is not 6 digit number
         elif not (self.secrets.text().isdigit() and len(self.secrets.text()) == 6):
             QtWidgets.QMessageBox.warning(self, "错误", "请输入6位数字")

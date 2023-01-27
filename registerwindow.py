@@ -45,11 +45,11 @@ class RegisterWindow(QtWidgets.QDialog):
         
     def handlesave(self):
         # if any field is empty
-        if (self.username_edit.text() == "" or 
-            self.password1_edit.text() == "" or 
-            self.password2_edit.text() == "" or
-            self.secrets.text() == ""):
-            QtWidgets.QMessageBox.warning(self, '错误', '输入不能为空')
+        if (" " in self.username_edit.text() or 
+            " " in self.password1_edit.text() or 
+            " " in self.password2_edit.text() or
+            " " in self.secrets.text()):
+            QtWidgets.QMessageBox.warning(self, '错误', '输入不能为空或含有空格')
         
         # if 2 passwords don't match
         elif self.password1_edit.text() != self.password2_edit.text():

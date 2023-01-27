@@ -37,37 +37,64 @@ class SaveWindow(QDialog):
         
         
     def createForm(self):
-        layout = QFormLayout()
+        self.layout = QFormLayout()
         
         radioBox = QGroupBox()
-        layout.addRow(QLabel("账号"), radioBox)
+        self.layout.addRow(radioBox)
         hbox = QHBoxLayout()
-        self.googleAccount = QRadioButton("谷歌账号", self)
+        
+        self.username = QLabel("邮箱/用户名")
+        self.layout.addRow(self.username, self.usernameLineEdit)
+        self.layout.addRow(QLabel("密码"), self.passwordLineEdit)    
+        self.layout.addRow(QLabel("网址"), self.websiteLineEdit)
+        self.layout.addRow(QLabel("给它命个名吧"), self.nameLineEdit)
+        
+        self.googleAccount = QRadioButton("谷歌账号登录", self)
         self.googleAccount.toggled.connect(self.googleAction)
-        self.nonGoogleAct = QRadioButton("非谷歌账号", self)
-        self.nonGoogleAct.toggled.connect(self.nongoogleAction)
-        self.nonGoogleAct.setChecked(True)
+        
+        self.wechatAct = QRadioButton("微信登录", self)
+        self.wechatAct.toggled.connect(self.wechatAction)
+        
+        self.otherAct = QRadioButton("自定义账号登录", self)
+        self.otherAct.toggled.connect(self.otherAction)
+        self.otherAct.setChecked(True)
+        
         hbox.addWidget(self.googleAccount)
-        hbox.addWidget(self.nonGoogleAct)
+        hbox.addWidget(self.wechatAct)
+        hbox.addWidget(self.otherAct)
         radioBox.setLayout(hbox)
         
-        layout.addRow(QLabel("用户名/邮箱"), self.usernameLineEdit)
-        layout.addRow(QLabel("密码"), self.passwordLineEdit)
-        layout.addRow(QLabel("网址"), self.websiteLineEdit)
-        layout.addRow(QLabel("给它命个名吧"), self.nameLineEdit)
+        self.formGroupBox.setLayout(self.layout)
         
-        self.formGroupBox.setLayout(layout)
-        
-    
     def googleAction(self, selected):
         if selected:
+            self.username.setText("谷歌邮箱")
             self.passwordLineEdit.setText("")
             self.passwordLineEdit.setDisabled(True)
             
-    
-    def nongoogleAction(self, selected):
+            
+    def wechatAction(self, selected):
         if selected:
+            self.username.setText("微信账号")
+            self.passwordLineEdit.setText("")
+            self.passwordLineEdit.setDisabled(True)
+    
+    
+    def otherAction(self, selected):
+        if selected:
+            self.username.setText("用户名/邮箱")
             self.passwordLineEdit.setDisabled(False)
+    
+    
+    def getAct(self):
+        if self.googleAccount.isChecked():
+            return "google"
+        elif self.wechatAct.isChecked():
+            return "wechat"
+        elif self.otherAct.isChecked():
+            return "self-defined"
+        else:
+            return "none"
     
     
     def saveregistration(self):
@@ -80,12 +107,13 @@ class SaveWindow(QDialog):
             datadict = {}
 
         # check whether any entry is empty
-        if self.googleAccount.isChecked():
+        if self.googleAccount.isChecked() or self.wechatAct.isChecked():
             if (self.usernameLineEdit.text() != "" and
                 self.websiteLineEdit.text() != "" and
                 self.nameLineEdit.text() != ""):
-                
+                                
                 newDict = {
+                    "account": self.getAct(),
                     "username": self.usernameLineEdit.text(),
                     "password": self.passwordLineEdit.text(),
                     "website": self.websiteLineEdit.text(),
@@ -101,13 +129,14 @@ class SaveWindow(QDialog):
                 QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")
 
                 
-        elif self.nonGoogleAct.isChecked():
+        elif self.otherAct.isChecked():
             if (self.usernameLineEdit.text() != "" and
                 self.passwordLineEdit.text() != "" and
                 self.websiteLineEdit.text() != "" and
                 self.nameLineEdit.text() != ""):
         
                 newDict = {
+                    "account": self.getAct(),
                     "username": self.usernameLineEdit.text(),
                     "password": self.passwordLineEdit.text(),
                     "website": self.websiteLineEdit.text(),

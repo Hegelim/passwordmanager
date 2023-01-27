@@ -173,9 +173,9 @@ class UpdateWindow(QDialog):
     def infoEmpty(self):
         """Return True if any information is empty"""
         if self.getAct() == "google" or self.getAct() == "wechat":
-            return (" " in self.usernameLineEdit.text() or
-                    " " in self.websiteLineEdit.text())
+            return (utils.isInvalidText(self.usernameLineEdit.text()) or
+                    utils.isInvalidText(self.websiteLineEdit.text()))
         else:
-            return (" " in self.usernameLineEdit.text() or
-                    " " in self.passwordLineEdit.text() or
-                    " " in self.websiteLineEdit.text())
+            return (utils.isInvalidText(self.usernameLineEdit.text()) or
+                    utils.isInvalidText(self.passwordLineEdit.text()) or
+                    utils.isInvalidText(self.websiteLineEdit.text()))

@@ -61,3 +61,7 @@ def set_style(window, type="Fusion"):
     window.setStyle(style)
     with open(stylesheet) as f:
         window.setStyleSheet(f.read())
+
+def isInvalidText(s):
+    """Return True if string s is empty or blank"""
+    return s == "" or " " in s

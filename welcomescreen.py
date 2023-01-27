@@ -106,8 +106,8 @@ class Login(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self, '错误', '您还未注册')
             
         # 2. check whether input is empty
-        elif (" " in self.lineEdit_username.text() or 
-              " " in self.lineEdit_password.text()):
+        elif (utils.isInvalidText(self.lineEdit_username.text()) or 
+              utils.isInvalidText(self.lineEdit_password.text())):
             QtWidgets.QMessageBox.warning(self, '错误', '输入不能为空或含有空格')
             
         # 3. check whether it matches the password

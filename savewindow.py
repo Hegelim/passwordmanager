@@ -126,7 +126,7 @@ class SaveWindow(QDialog):
                 QtWidgets.QMessageBox.information(self, "保存", "保存成功！")
                 self.close()
             else:
-                QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")
+                QtWidgets.QMessageBox.warning(self, "注意", "输入不能为空或含有空格")
 
                 
         elif self.otherAct.isChecked():
@@ -149,4 +149,4 @@ class SaveWindow(QDialog):
                 QtWidgets.QMessageBox.information(self, "保存", "保存成功！")
                 self.close()
             else:
-                QtWidgets.QMessageBox.warning(self, "注意", "您有未输入的信息，请重新输入")
+                QtWidgets.QMessageBox.warning(self, "注意", "输入不能为空或含有空格")

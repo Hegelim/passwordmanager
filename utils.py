@@ -65,3 +65,6 @@ def set_style(window, type="Fusion"):
 def isInvalidText(s):
     """Return True if string s is empty or blank"""
     return s == "" or " " in s
+
+def isValidText(s):
+    return not isInvalidText(s)

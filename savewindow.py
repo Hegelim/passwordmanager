@@ -108,9 +108,9 @@ class SaveWindow(QDialog):
 
         # check whether any entry is empty
         if self.googleAccount.isChecked() or self.wechatAct.isChecked():
-            if (self.usernameLineEdit.text() != "" and
-                self.websiteLineEdit.text() != "" and
-                self.nameLineEdit.text() != ""):
+            if (utils.isValidText(self.usernameLineEdit.text()) and
+                utils.isValidText(self.websiteLineEdit.text()) and
+                utils.isValidText(self.nameLineEdit.text())):
                                 
                 newDict = {
                     "account": self.getAct(),
@@ -130,10 +130,10 @@ class SaveWindow(QDialog):
 
                 
         elif self.otherAct.isChecked():
-            if (self.usernameLineEdit.text() != "" and
-                self.passwordLineEdit.text() != "" and
-                self.websiteLineEdit.text() != "" and
-                self.nameLineEdit.text() != ""):
+            if (utils.isValidText(self.usernameLineEdit.text()) and
+                utils.isValidText(self.passwordLineEdit.text())and
+                utils.isValidText(self.websiteLineEdit.text()) and
+                utils.isValidText(self.nameLineEdit.text())):
         
                 newDict = {
                     "account": self.getAct(),

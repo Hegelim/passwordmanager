@@ -13,6 +13,7 @@ python welcomescreen.py
 ## Development in Windows
 
 ```
+conda activate passwordmanager
 python welcomescreen.py
 ```
 
@@ -23,6 +24,8 @@ Make sure you are in windows environment so that the execuatable file is .exe
 pip install pyinstaller
 pyinstaller --onedir --windowed welcomescreen.py
 ```
+copy favicons, style.css into the newly exported dir
+zip dir and install anywhere
 
 ## Features
 
@@ -33,5 +36,3 @@ pyinstaller --onedir --windowed welcomescreen.py
 * Export entries
 * Backup with Google Drive
 * Styled
-
-
